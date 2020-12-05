@@ -19,5 +19,5 @@ Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker via node-m
 - FilterLifetime wird nicht angezeigt.
 
 ## Changelog
-#### 3.12.20 (V0.1.3)
+#### 3.12.20 (V0.1.4)
 - Add: Init
