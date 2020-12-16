@@ -91,18 +91,7 @@ function main() {
     CreateDpTrigger();
 }
 
-function WriteGenericDpValues() { //Alle vorhandenen generischen Werte einlesen und in Dps schreiben
-    for (let x = 0; x < AllDevicesRaw.length; x++) { //Alle vorhandenen Xiaomi Devices durchgehen
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.IpAdress", AllDevicesRaw[x].localip);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.Token", AllDevicesRaw[x].token);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.DeviceId", AllDevicesRaw[x].did);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.Model", AllDevicesRaw[x].model);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.Rssi", AllDevicesRaw[x].rssi);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.Name", AllDevicesRaw[x].name);
-        setState(praefix0 + AllDevicesRaw[x].did + ".Info.IsOnline", AllDevicesRaw[x].isOnline);
-     if (logging)    log(AllDevicesRaw[x])
-    };
-}
+
 function WriteGenericDpValues() { //Alle vorhandenen generischen Werte einlesen und in Dps schreiben
     for (let x = 0; x < AllDevicesRaw.length; x++) { //Alle vorhandenen Xiaomi Devices durchgehen
         setState(praefix0 + AllDevicesRaw[x].did + ".Info.IpAdress", AllDevicesRaw[x].localip);
