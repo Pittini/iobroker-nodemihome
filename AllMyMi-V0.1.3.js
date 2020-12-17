@@ -1,4 +1,4 @@
-const SkriptVersion = "0.0.1"; //vom 13.12.2020 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.1.3"; //vom 17.12.2020 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 const axios = require('axios');
@@ -19,10 +19,10 @@ const logging = true; //Logging aktivieren/deaktivieren
 //Ab hier nix mehr ändern!
 /*
 1. Xiaomi Cloudlogin
-2. Alle dort gelisteten Geräte abrufen
+2. Alle dort gelisteten Geräte und deren Basicdaten abrufen
 3. Für alle abgerufenen Geräte Basic Channel/Datenpunkte anlegen
 4. Prüfen welche supporteten Geräte in der Auflistung vorhanden sind und die entsprechenden spezifischen Datenpunkte erstellen
-
+5. Basic Channels mit Daten füllen / einlesen
 
 */
 // ######### TESTBEREICH ################
@@ -54,7 +54,7 @@ function MiotUrlConstructor(miotdevice) {
 const DeviceData = [];
 let AllDevicesRaw = [];
 
-let device;
+let device = [];
 
 const States = [];
 let DpCount = 0;
@@ -64,7 +64,7 @@ log("Starting AllMyMi V." + SkriptVersion);
 
 Init();
 
-//Devicedaten did 317335021 Purifier 3H
+//Devicedaten Purifier 3H
 const DeviceGets = ["Power", "Mode", "FanLevel", "Buzzer", "LcdBrightness", "Temperature", "Humidity", "PM2_5", "FilterRemaining", "Filterlife", "Filterused"]
 const DeviceSets = ["Power", "Mode", "FanLevel", "Buzzer", "LcdBrightness", "ChildLock"]
 
@@ -109,69 +109,41 @@ DefineDevice[2] = {
         { name: "bright", format: "number", read: true, write: true, min: 1, max: 100 },
         { name: "rgb", format: "number", read: true, write: true, min: 1, max: 16777215 }]
 };
+for (let x in DefineDevice) { //An alle Devicedefinitionen die generischen Datenpunkte anhängen
+    DefineDevice[x].info = [
+        { id: "localip", initial: "", forceCreation: false, common: { read: true, write: true, name: "Ip Adress", type: "string", role: "value", def: "" } },
+        { id: "token", initial: "", forceCreation: false, common: { read: true, write: true, name: "Token", type: "string", role: "value", def: "" } },
+        { id: "did", initial: "", forceCreation: false, common: { read: true, write: true, name: "Device Id", type: "string", role: "value", def: "" } },
+        { id: "model", initial: "", forceCreation: false, common: { read: true, write: true, name: "Model", type: "string", role: "value", def: "" } },
+        { id: "rssi", initial: 0, forceCreation: false, common: { read: true, write: false, name: "rssi", type: "number", role: "value.rssi", def: 0 } },
+        { id: "name", initial: "", forceCreation: false, common: { read: true, write: true, name: "Name", type: "string", role: "value", def: "" } },
+        { id: "isOnline", initial: false, forceCreation: false, common: { read: true, write: true, name: "Is online", type: "boolean", role: "value", def: false } }]
 
-
-//GenerateSupportetDeviceArray()
-function GenerateSupportetDeviceArray() {
-    let ModelArray = [];
-    for (let x in DefineDevice) {
-        if (DefineDevice.hasOwnProperty(x)) {
-
-            console.log("Found Devicedefinition for "  + DefineDevice[x].model);
-            ModelArray[x] = DefineDevice[x].model;
-        };
-    };
-    log("This are " + DefineDevice.length + " supported devices in summary");
-    return ModelArray;
 }
+
 
 
 function PrepareDeviceDps(did, model) {
     if (logging) log("Reaching PrepareDeviceDps, did=" + did + " model=" + model);
     for (let x in DefineDevice) { //Alle definierten Model durchgehen
-            if (DefineDevice[x].model == model) { //bei Model match
-                for (let y in DefineDevice[x].common) { //Alle common propertys des models durchgehen und Var zusammensetzen
-                    States[DpCount] = { id: praefix0 + "." + did + "." + DefineDevice[x].common[y].name, common: DefineDevice[x].common[y] }; // 
-                    DpCount++;
-                };
+        if (DefineDevice[x].model == model) { //bei Model match
+            for (let y in DefineDevice[x].common) { //Alle common propertys des models durchgehen und Var zusammensetzen
+                States[DpCount] = { id: praefix0 + "." + did + "." + DefineDevice[x].common[y].name, common: DefineDevice[x].common[y] }; // 
+                DpCount++;
             };
+        };
     };
 }
 
 
-function PrepareGenericDps(did, name) {
-    //StaticDps
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.IpAdress", initial: "", forceCreation: false, common: { read: true, write: true, name: "Ip Adress", type: "string", role: "value", def: "" } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.Token", initial: "", forceCreation: false, common: { read: true, write: true, name: "Token", type: "string", role: "value", def: "" } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.DeviceId", initial: "", forceCreation: false, common: { read: true, write: true, name: "Device Id", type: "string", role: "value", def: "" } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.Model", initial: "", forceCreation: false, common: { read: true, write: true, name: "Model", type: "string", role: "value", def: "" } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.Rssi", initial: 0, forceCreation: false, common: { read: true, write: false, name: "rssi", type: "number", role: "value.rssi", def: 0 } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.Name", initial: "", forceCreation: false, common: { read: true, write: true, name: "Name", type: "string", role: "value", def: "" } }; //
-    DpCount++;
-    States[DpCount] = { id: praefix0 + "." + did + ".Info.IsOnline", initial: false, forceCreation: false, common: { read: true, write: true, name: "Is online", type: "boolean", role: "value", def: false } }; //
-    DpCount++;
-}
 
-function PrepareGenericDps2(did, name, x) {
-    //StaticDps
-    for (let x in DefineDevice) {
-        DefineDevice[x].info = [
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.IpAdress", initial: "", forceCreation: false, common: { read: true, write: true, name: "Ip Adress", type: "string", role: "value", def: "" } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.Token", initial: "", forceCreation: false, common: { read: true, write: true, name: "Token", type: "string", role: "value", def: "" } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.DeviceId", initial: "", forceCreation: false, common: { read: true, write: true, name: "Device Id", type: "string", role: "value", def: "" } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.Model", initial: "", forceCreation: false, common: { read: true, write: true, name: "Model", type: "string", role: "value", def: "" } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.Rssi", initial: 0, forceCreation: false, common: { read: true, write: false, name: "rssi", type: "number", role: "value.rssi", def: 0 } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.Name", initial: "", forceCreation: false, common: { read: true, write: true, name: "Name", type: "string", role: "value", def: "" } },
-            { id: praefix0 + "." + AllDevicesRaw[x].did + ".Info.IsOnline", initial: false, forceCreation: false, common: { read: true, write: true, name: "Is online", type: "boolean", role: "value", def: false } }]
-    }
-    log(DefineDevice[1].info[2])
-
-
+function PrepareGenericDps(did, name) {  //GenericDps
+    if (logging) log("Reaching PrepareGenericDps2(did)");
+    for (let y in DefineDevice[0].info) { //Alle info propertys des models durchgehen und Var zusammensetzen
+        // log("DefineDevice[0].info[y]=" + JSON.stringify(DefineDevice[0].info[y].common.name))
+        States[DpCount] = { id: praefix0 + "." + did + ".Info." + DefineDevice[0].info[y].id, common: DefineDevice[0].info[y].common }; // 
+        DpCount++;
+    };
 }
 
 
@@ -184,44 +156,39 @@ function CreateStates() {
         createState(state.id, state.initial, state.forceCreation, state.common, function () {
             numStates--;
             if (numStates === 0) {
-                if (logging) log(States.length+" States created, now setting up channels!");
+                if (logging) log(States.length + " States created, now setting up channels!");
                 setObject(praefix0, { type: 'channel', common: { name: "" }, native: {} }); //Root zum Channel machen
                 for (let x = 0; x < AllDevicesRaw.length; x++) {
                     setObject(praefix0 + "." + AllDevicesRaw[x].did, { type: 'device', common: { name: AllDevicesRaw[x].name }, native: {} }); //DeviceChannels machen
-                    if (logging) log(AllDevicesRaw[x])
+                    // if (logging) log("AllDevicesRaw[x]=" +JSON.stringify (AllDevicesRaw[x]))
                 };
 
 
-                //main();
+                main();
             };
         });
     });
 }
 
-function main() {
+async function main() {
     if (logging) log("Reaching main");
-    WriteGenericDpValues();
-    CreateDpTrigger();
+    await WriteGenericDpValues();
+    //CreateDevices();
+    //CreateDpTrigger();
 }
 
 
 function WriteGenericDpValues() { //Alle vorhandenen generischen Werte einlesen und in Dps schreiben
-    for (let x = 0; x < AllDevicesRaw.length; x++) { //Alle vorhandenen Xiaomi Devices durchgehen
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.IpAdress", AllDevicesRaw[x].localip);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.Token", AllDevicesRaw[x].token);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.DeviceId", AllDevicesRaw[x].did);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.Model", AllDevicesRaw[x].model);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.Rssi", AllDevicesRaw[x].rssi);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.Name", AllDevicesRaw[x].name);
-        setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info.IsOnline", AllDevicesRaw[x].isOnline);
-        for (let y = 0; y < DefineDevice.length; y++) {
-            if (AllDevicesRaw[x].model == DefineDevice[y].model) {
-                Create_device(AllDevicesRaw[x].did, AllDevicesRaw[x].model, AllDevicesRaw[x].localip, AllDevicesRaw[x].token)
-            };
-        }
-
-        if (logging) log(AllDevicesRaw[x].model)
+    if (logging) log("Reaching WriteGenericDpValues()");
+    for (let x in AllDevicesRaw) { //Alle vorhandenen Xiaomi Devices durchgehen
+        for (let y in DefineDevice[0].info) { //Nimm ersten Eintrag aus DefineDevices da die Generics bei allen gleich sind
+            setState(praefix0 + "." + AllDevicesRaw[x].did + ".Info." + DefineDevice[0].info[y].id, AllDevicesRaw[x][DefineDevice[0].info[y].id]);
+           // log("DefineDevice[" + 0 + "].info[" + y + "]=" + JSON.stringify(DefineDevice[0].info[y]));
+           // log("" + praefix0 + "." + AllDevicesRaw[x].did + ".Info." + DefineDevice[0].info[y].id)
+           // log(AllDevicesRaw[x][DefineDevice[0].info[y].id])
+        };
     };
+    return true;
 }
 
 
@@ -245,62 +212,93 @@ async function Init() { //Cloudlogin und auslesen der gesamten Clouddaten
 
     for (let x = 0; x < AllDevicesRaw.length; x++) { //Alle beim User vorhandenen Xiaomi Devices durchgehen
         log(AllDevicesRaw[x].name);
-      await  PrepareGenericDps(AllDevicesRaw[x].did, AllDevicesRaw[x].name); //und allgemeine generische Infos Dps vorbereiten
+        await PrepareGenericDps(AllDevicesRaw[x].did, AllDevicesRaw[x].model, AllDevicesRaw[x].name); //und allgemeine generische Infos Dps vorbereiten
     };
     log("Now searching for supported Devices...");
     for (let x = 0; x < AllDevicesRaw.length; x++) { //Jetzt erneut alle beim User vorhandenen Xiaomi Devices durchgehen
         for (let y = 0; y < DefineDevice.length; y++) { //und abgleichen mit von Skript und node-mihome unterstützten Geräten
             if (AllDevicesRaw[x].model == DefineDevice[y].model) { //Bei match Devicespezifische DPs vorbereiten
                 log("Device " + AllDevicesRaw[x].name + " is supported, creating DataPoints");
-              await  PrepareDeviceDps(AllDevicesRaw[x].did, AllDevicesRaw[x].model);
+                await PrepareDeviceDps(AllDevicesRaw[x].did, AllDevicesRaw[x].model);
+            };
+        };
+    };
+    CreateStates();
+}
+
+
+async function CreateDevices() {
+    if (logging) log("Reaching CreateDevices ");
+
+    let z = 0;
+
+    for (let x in AllDevicesRaw) {
+        for (let y in DefineDevice) {
+            if (AllDevicesRaw[x].model == DefineDevice[y].model) {
+                log("Creating device for " + AllDevicesRaw[x].model)
+
+                device[z] = mihome.device({
+                    id: AllDevicesRaw[x].did, // required, device id
+                    model: AllDevicesRaw[x].model, // required, device model "zhimi.airpurifier.mb3"
+                    address: AllDevicesRaw[x].localip, // miio-device option, local ip address
+                    token: AllDevicesRaw[x].token, // miio-device option, device token 4ff8a96292d0451c5148142a0a851e4f
+                    refresh: refresh // miio-device option, device properties refresh interval in ms
+                });
+                log(JSON.stringify(device[z]));
+
+                if (AllDevicesRaw[x].model == "zhimi.airpurifier.mb3") {
+                    device[z].on('properties', (data) => {
+                        for (let i in AllDevicesRaw[x].common.name) {
+                            //device[z][AllDevicesRaw[x].common.name[i]]=
+                        };
+                        log("Data=" + JSON.stringify(data))
+                        log("Keys=" + JSON.stringify(device[z].keys()))
+                        device[z].Power = device[z].getPower(); // liefert ein bestimmtes Attribut
+                        device[z].Mode = device[z].getMode(); // liefert ein bestimmtes Attribut - auto/sleep/none
+                        device[z].FanLevel = device[z].getFanLevel(); // liefert ein bestimmtes Attribut
+                        device[z].Temperature = device[z].getTemperature(); // liefert ein bestimmtes Attribut
+                        device[z].Humidity = device[z].getHumidity(); // liefert ein bestimmtes Attribut
+                        device[z].PM2_5 = device[z].getPM2_5(); // liefert ein bestimmtes Attribut
+                        device[z].FilterRemaining = device[z].getFilterRemaining(); // liefert ein bestimmtes Attribut
+                        device[z].Buzzer = device[z].getBuzzer(); // liefert ein bestimmtes Attribut
+                        device[z].LcdBrightness = device[z].getLcdBrightness(); // liefert ein bestimmtes Attribut
+                        device[z].Filterlife = device[z].getFilterlife(); // liefert ein bestimmtes Attribut
+                        device[z].Filterused = device[z].getFilterused(); // liefert ein bestimmtes Attribut
+                        RefreshDps(device[z].id, z);
+                    });
+                };
+
+                await device[z].init(); // connect to device and poll for properties
+
+                z++;
             };
         };
     };
 
 
-    CreateStates();
-}
 
-
-async function Create_device(did, model, adress, token) {
-    if (logging) log("Reaching CreateDevice did=" + did + " model=" + model + " adress=" + adress + " token=" + token);
-
-    device = mihome.device({
-        id: did, // required, device id
-        model: model, // required, device model "zhimi.airpurifier.mb3"
-        address: adress, // miio-device option, local ip address
-        token: token, // miio-device option, device token 4ff8a96292d0451c5148142a0a851e4f
-        refresh: refresh // miio-device option, device properties refresh interval in ms
-    });
-    log(JSON.stringify(device))
-    device.on('properties', (data) => {
-        device.Power = device.getPower(); // liefert ein bestimmtes Attribut
-        device.Mode = device.getMode(); // liefert ein bestimmtes Attribut - auto/sleep/none
-        device.FanLevel = device.getFanLevel(); // liefert ein bestimmtes Attribut
-        device.Temperature = device.getTemperature(); // liefert ein bestimmtes Attribut
-        device.Humidity = device.getHumidity(); // liefert ein bestimmtes Attribut
-        device.PM2_5 = device.getPM2_5(); // liefert ein bestimmtes Attribut
-        device.FilterRemaining = device.getFilterRemaining(); // liefert ein bestimmtes Attribut
-        device.Buzzer = device.getBuzzer(); // liefert ein bestimmtes Attribut
-        device.LcdBrightness = device.getLcdBrightness(); // liefert ein bestimmtes Attribut
-        device.Filterlife = device.getFilterlife(); // liefert ein bestimmtes Attribut
-        device.Filterused = device.getFilterused(); // liefert ein bestimmtes Attribut
-        RefreshDps(did);
-    });
-
-    await device.init(); // connect to device and poll for properties
 
     onStop(function () { //Bei Scriptende Device löschen
-        device.destroy();
+        for (let x in device) {
+            device[x].destroy();
+        }
         unsubscribe('properties');
     }, 10);
 }
 
-function RefreshDps(did) {
+function RefreshDps(did, DeviceIndex) {
     if (logging) log("Reaching RefreshDps ");
     TriggerLock = true;
 
-    if (device.Power != DeviceData[0]) {
+
+    for (let x in device[DeviceIndex]) {
+        if (did == device[x].id) {
+
+        }
+    }
+
+
+    if (device[x].Power != DeviceData[0]) {
         DeviceData[0] = device.Power;
         setState(praefix0 + "." + did + "." + DeviceGets[0], DeviceData[0]);
     }
