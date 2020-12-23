@@ -4,8 +4,8 @@ const mihome = require('node-mihome');
 const axios = require('axios');
 
 // Logindaten für Xiaomi Cloud:
-const username = 'pittini@web.de';
-const password = 'i3oG6Px4ld';
+const username = '';
+const password = '';
 const options = { country: 'de' }; // 'ru', 'us', 'tw', 'sg', 'cn', 'de' (Default: 'cn');
 
 

@@ -1,11 +1,11 @@
-const SkriptVersion = "0.1.7"; //vom 21.12.2020 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.1.8"; //vom 23.12.2020 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 const axios = require('axios');
 
 // Logindaten für Xiaomi Cloud:
-const username = 'pittini@web.de';
-const password = 'i3oG6Px4ld';
+const username = '';
+const password = '';
 const options = { country: 'de' }; // 'ru', 'us', 'tw', 'sg', 'cn', 'de' (Default: 'cn');
 
 
@@ -227,17 +227,16 @@ async function Init() { //Cloudlogin und auslesen der gesamten Clouddaten
     CreateStates();
 }
 
-
+let UserDevice = []
 async function CreateDevices() {
     if (logging) log("Reaching CreateDevices ");
-    let z = -1;
+    let z = 0;
 
 
     for (let x in AllDevicesRaw) {
         for (let y in DefineDevice) {
             if (AllDevicesRaw[x].model == DefineDevice[y].model) {
                 log("Now creating device for " + AllDevicesRaw[x].model + " / " + AllDevicesRaw[x].did + " / " + AllDevicesRaw[x].localip + " / " + AllDevicesRaw[x].token + " / " + refresh)
-                z++;
 
                 device[z] = mihome.device({
                     id: AllDevicesRaw[x].did, // required, device id
@@ -246,89 +245,48 @@ async function CreateDevices() {
                     token: AllDevicesRaw[x].token, // miio-device option, device token 4ff8a96292d0451c5148142a0a851e4f
                     refresh: refresh // miio-device option, device properties refresh interval in ms
                 });
-
+                device[z].model = AllDevicesRaw[x].model
                 log("Created device " + JSON.stringify(device[z]) + " now fetching data");
-
-                if (AllDevicesRaw[x].model == "zhimi.airpurifier.mb3") {
-                    log("Match at " + AllDevicesRaw[x].model)
-
-                    device[z].on('properties', (data) => {
-                        device[z].power = device[z].getPower(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 0 " + device[z].power)
-
-                        device[z].mode = device[z].getMode(); // liefert ein bestimmtes Attribut - auto/sleep/none
-                        log(AllDevicesRaw[x].model + " 1 " + device[z].mode)
-
-                        device[z].fanlevel = device[z].getFanLevel(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 2 " + device[z].fanlevel)
-
-                        device[z].temperature = device[z].getTemperature(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 3 " + device[z].temperature)
-
-                        device[z].humidity = device[z].getHumidity(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 4 " + device[z].humidity)
-
-                        device[z].pm2_5 = device[z].getPM2_5(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 5 " + device[z].pm2_5)
-
-                        device[z].filterremaining = device[z].getFilterRemaining(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 6 " + device[z].filterremaining)
-
-                        device[z].buzzer = device[z].getBuzzer(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 7 " + device[z].buzzer)
-
-                        device[z].lcdbrightness = device[z].getLcdBrightness(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 8 " + device[z].lcdbrightness)
-
-                        device[z].filterlife = device[z].getFilterlife(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 9 " + device[z].filterlife)
-
-                        device[z].filterused = device[z].getFilterused(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 10 " + device[z].filterused)
-
-                        device[z].data = data
-                        RefreshDps(z);
-                    });
-                } else if (AllDevicesRaw[x].model == "yeelink.light.strip2") {
-                    log("Match at " + AllDevicesRaw[x].model)
-
-                    device[z].on('properties', (data) => {
-                        //log("data=" + JSON.stringify(data))
-                        device[z].power = device[z].getPower(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 0 " + device[z].power)
-
-                        device[z].brightness = device[z].getBrightness(); // liefert ein bestimmtes Attribut - auto/sleep/none
-                        log(AllDevicesRaw[x].model + " 1 " + device[z].brightness)
-
-                        device[z].rgb = device[z].getColorRgb(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 2 " + device[z].rgb)
-
-                        //device[z].mode = device[z].getMode(); // liefert ein bestimmtes Attribut
-                        // log(AllDevicesRaw[x].model + " 3 " + device[z].mode)
-
-                        device[z].ct = device[z].getColorTemperature(); // liefert ein bestimmtes Attribut
-                        log(AllDevicesRaw[x].model + " 4 " + device[z].ct)
-
-
-                        device[z].data = data
-                        RefreshDps(z);
-                    });
-                } else if (AllDevicesRaw[x].model == "leshow.fan.ss4") {
-                    log("Match at " + AllDevicesRaw[x].model)
-                    device[z].on('properties', (data) => {
-                        //log("data=" + JSON.stringify(data))
-                        device[z].data = data
-                        RefreshDps(z);
-                    });
-                };
+                log("Init Device# " + z + " - device=" + JSON.stringify(device[z].model))
                 await device[z].init(); // connect to device and poll for properties
 
-                log("Init Device# " + z + " - device=" + JSON.stringify(device[z].data))
+                z++
 
             };
         };
+
     };
 
+    for (let z in device) {
+
+        switch (device[z].model) {
+            case "zhimi.airpurifier.mb3":
+                log("Match at " + device[z].model)
+                device[z].on('properties', (data) => {
+                    device[z].data = data
+                    RefreshDps(z);
+                });
+                break;
+            case "yeelink.light.strip2":
+                log("Match at " + device[z].model)
+                device[z].on('properties', (data) => {
+                    device[z].data = data
+                    RefreshDps(z);
+                });
+                break;
+            case "leshow.fan.ss4":
+                log("Match at " + device[z].model)
+                device[z].on('properties', (data) => {
+                    device[z].data = data
+                    RefreshDps(z);
+                });
+
+                break;
+            default:
+            //   device[z].data = {}
+        }
+        log("z=" + z)
+    }
 
 
 
@@ -340,13 +298,13 @@ async function CreateDevices() {
     }, 10);
 }
 
-async function RefreshDps(z) {
-    if (logging) log("Reaching RefreshDps z="+z);
+function RefreshDps(DeviceIndex) {
+    if (logging) log("Reaching RefreshDps ");
     TriggerLock = true;
-    log("Data=" + JSON.stringify(device[z].data), "warn")
-
+    log("Model="+device[DeviceIndex].model+" Data=" + JSON.stringify(device[DeviceIndex].data) + " z=" + DeviceIndex, "warn")
 
     return true
+
     /*
     for (let x in device[DeviceIndex]) {
 
