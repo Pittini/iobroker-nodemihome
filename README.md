@@ -5,6 +5,14 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Auslesen von Token und anderen Devicedaten via CloudLogin
 * Steuerung und Information zum Xiaomi Airpurifier3H
 
+## Aktuell unterstütze Geräte (lesen/schreiben):
+* Xiaomi Air Purifier 3H (voll/voll)
+* YeeLight Strip Plus (voll/teilw.)
+* Roussou Fan (voll/voll)
+* Yeelight LED Bulb (Color) (voll/teilw.)
+* Yeelight LED Bulb (Tunable) (voll/teilw.)
+* Smartmi Evaporative Humidifier (voll/voll)
+
 ## Installation:
   ###  Vorraussetzungen: 
    1. Installierter "JavaScript Adapter" aka "Script Engine" ab Version 4.8.0   
@@ -20,6 +28,7 @@ Nach dem Start solltest Du nun unter "javaskript.0.MiHome" etliche Channels (abh
 In einem dieser Channels findest Du nun auch die Daten Deines AirPurifiers mit weiteren Datenpunkten.
 
 ## Known Issues
+### Xiaomi Air Purifier 3H
 - Mode kann gelesen aber nicht gesetzt werden.  
 Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 - FilterLifetime wird nicht angezeigt.  
