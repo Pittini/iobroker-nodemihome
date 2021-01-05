@@ -3,15 +3,16 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 
 ## Features:
 * Auslesen von Token und anderen Devicedaten via CloudLogin
-* Steuerung und Information zum Xiaomi Airpurifier3H
+* Steuerung und Information von Xiaomi Geräten
 
-## Aktuell unterstütze Geräte (lesen/schreiben):
-* Xiaomi Air Purifier 3H (voll/voll)
-* YeeLight Strip Plus (voll/teilw.)
-* Roussou Fan (voll/voll)
-* Yeelight LED Bulb (Color) (voll/teilw.)
-* Yeelight LED Bulb (Tunable) (voll/teilw.)
-* Smartmi Evaporative Humidifier (voll/voll)
+## Aktuell vom Skript unterstütze Geräte - Name - Model - (lesen/schreiben):
+* Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3 - (voll/voll)
+* YeeLight Strip Plus             - yeelink.light.strip2 - (voll/teilw.)
+* Roussou Fan                     - leshow.fan.ss4 - (voll/voll)
+* Yeelight LED Bulb (Color)       - yeelink.light.color2 - (voll/teilw.)
+* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2 - (voll/teilw.)
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1 - (voll/voll)
+* Smartmi Evaporative Humidifier  - deerma.humidifier.jsq - (in progress)
 
 ## Installation:
   ###  Vorraussetzungen: 
@@ -24,8 +25,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
    5. Du legst ein neues JS Projekt an und kopierst das Skript dort hinein
    6. Du trägst im Skript Usernamen und Passwort Deines Xiaomi Cloudzugangs ein
 
-Nach dem Start solltest Du nun unter "javaskript.0.MiHome" etliche Channels (abhängig von der Anzahl der Geräte welche Du besitzt) finden, mit den jeweiligen Basisdaten wie Ip Adresse, Token usw.
-In einem dieser Channels findest Du nun auch die Daten Deines AirPurifiers mit weiteren Datenpunkten.
+Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (abhängig von der Anzahl der Geräte welche Du besitzt) finden, mit den jeweiligen Basisdaten wie Ip Adresse, Token usw.
+In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten.
 
 ## Known Issues
 ### Xiaomi Air Purifier 3H
@@ -35,6 +36,9 @@ Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 
 ## Changelog
+#### 05.01.21 (0.2.0)
+- Change: Nahezu vollständiger rewrite. Es können nun (theoretisch) eine unbegrenzte Zahl von Xiaomi Geräten simultan verarbeitet werden. Skript kann relativ leicht durch hinzufügen neuer Definitionen um weitere Geräte erweitert werden.
+- Change: Die Datenpunktstruktur und Bezeichnungen für den Air Purifier 3H haben sich im Vergleich zum Vorgängerskript komplett verändert, bitte nötigenfalls Vis anpassen.
 #### 16.12.20 (V0.1.6)
 - Fix: Problem mit unterschiedlichen dids behoben
 #### 3.12.20 (V0.1.4)
