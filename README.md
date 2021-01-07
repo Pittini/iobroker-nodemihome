@@ -6,13 +6,26 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Steuerung und Information von Xiaomi Geräten
 
 ## Aktuell vom Skript unterstütze Geräte - Name - Model - (lesen/schreiben):
-* Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3 - (voll/voll)
-* YeeLight Strip Plus             - yeelink.light.strip2 - (voll/teilw.)
+
+### Fans
 * Roussou Fan                     - leshow.fan.ss4 - (voll/voll)
-* Yeelight LED Bulb (Color)       - yeelink.light.color2 - (voll/teilw.)
-* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2 - (voll/teilw.)
-* Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1 - (voll/voll)
-* Smartmi Evaporative Humidifier  - deerma.humidifier.jsq - (in progress)
+* Fan                             - zhimi.fan.za4 - (ready to test)
+
+### Humidifiers
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
+* Smartmi Evaporative Humidifier  - deerma.humidifier.jsq   - (in progress)
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (in progress)
+
+### Purifiers
+* Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
+* Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (in progress)
+### Lights
+* YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
+* Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw.)
+* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/teilw.)
+* Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
+* Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
+
 
 ## Installation:
   ###  Vorraussetzungen: 
