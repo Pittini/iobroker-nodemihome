@@ -19,6 +19,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (in progress)
+* Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (in progress)
+
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
 * Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw.)
@@ -49,6 +51,8 @@ Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 
 ## Changelog
+#### 16.01.21 (0.2.3)
+- Add:  Modelle hinzugefügt
 #### 05.01.21 (0.2.0)
 - Change: Nahezu vollständiger rewrite. Es können nun (theoretisch) eine unbegrenzte Zahl von Xiaomi Geräten simultan verarbeitet werden. Skript kann relativ leicht durch hinzufügen neuer Definitionen um weitere Geräte erweitert werden.
 - Change: Die Datenpunktstruktur und Bezeichnungen für den Air Purifier 3H haben sich im Vergleich zum Vorgängerskript komplett verändert, bitte nötigenfalls Vis anpassen.
