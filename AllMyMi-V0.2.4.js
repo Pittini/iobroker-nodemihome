@@ -131,12 +131,11 @@ DefineDevice[8] = { // untested
 DefineDevice[13] = { // Tested and working
     info: {},
     model: "zhimi.airpurifier.vb2",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-vb2:1
-    description: "Mi Air Purifier ProH",
+    description: "Mi Air Purifier Pro H",
     setter: {
         "air-purifier.on": async function (obj, val) { await device[obj].setPower(val) },
         "air-purifier.mode": async function (obj, val) { await device[obj].setMode(val) },
         "air-purifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
-        "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
         "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
     },
@@ -145,7 +144,6 @@ DefineDevice[13] = { // Tested and working
         { name: "air-purifier.fault", format: "number", read: true, write: false, min: 0, max: 5, states: { 0: "No faults", 1: "m1_run", 2: "m1_stuck", 3: "no_sensor", 4: "error_hum", 5: "error_temp", 6: "timer_error1", 7: "timer_error2" } },
         { name: "air-purifier.mode", format: "number", read: true, write: true, min: 0, max: 3, states: { 0: "auto", 1: "sleep", 2: "favorite", 3: "fanset" } },
         { name: "air-purifier.fan-level", format: "number", read: true, write: true, min: 1, max: 3 },
-        { name: "alarm.alarm", format: "boolean", read: true, write: true, min: false, max: true },
         { name: "indicator-light.brightness", format: "number", read: true, write: true, min: 0, max: 2 },
         { name: "indicator-light.on", format: "boolean", read: true, write: true, min: false, max: true },
         { name: "environment.temperature", format: "number", read: true, write: false, min: -40, max: 125, unit: "°C" },
@@ -609,33 +607,32 @@ function RefreshDps(DeviceIndex) {
     // log(device[DeviceIndex].data['environment:temperature'])
 
     for (let x in device[DeviceIndex].data) { //Alle properties des Devices durchgehen
-        for (let y in device[DeviceIndex].definition.common) {
-            if (device[DeviceIndex].definition.common[y].name == CorrectChannelId(x)) {
-
-
-                switch (device[DeviceIndex].definition.common[y].name) {
-                    case 'power': //Umwandlung von power on/off zu true/false beim Dp schreiben. data muß unverändert bleiben da im Trigger mit origdaten abgeglichen wird
-                        if (device[DeviceIndex].data[x].toLowerCase() == 'on') { // On immer zu true wandeln
-                            setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), true, true);
-                        }
-                        else if (device[DeviceIndex].data[x].toLowerCase() == 'off') { // Off immer zu false wandeln
-                            setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), false, true);
-                        } else { // Ansonsten Normal den Wert schreiben
+        for (let y in device[DeviceIndex].definition.common) { //Alle Definitionsproperties durchgehen
+            if (device[DeviceIndex].definition.common[y].name == CorrectChannelId(x)) { //Wenn match
+                if (typeof device[DeviceIndex].data[x] == 'undefined' || typeof device[DeviceIndex].id == 'undefined') { //Wenn kein Pfad oder keine Daten
+                    log("Empty packet, skipping refresh", 'warn');
+                    return false;
+                } else {
+                    switch (device[DeviceIndex].definition.common[y].name) {
+                        case 'power': //Umwandlung von power on/off zu true/false beim Dp schreiben. data muß unverändert bleiben da im Trigger mit origdaten abgeglichen wird
+                            if (device[DeviceIndex].data[x].toLowerCase() == 'on') { // On immer zu true wandeln
+                                setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), true, true);
+                            }
+                            else if (device[DeviceIndex].data[x].toLowerCase() == 'off') { // Off immer zu false wandeln
+                                setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), false, true);
+                            } else { // Ansonsten Normal den Wert schreiben
+                                setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), device[DeviceIndex].data[x], true);
+                            };
+                            break;
+                        case 'rgb': //Umwandlung von Dezimal RGB zu Hex Rgb
+                            // log(ConvertDeziToHex(device[DeviceIndex].data[x]))
+                            setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), ConvertDeziToHex(device[DeviceIndex].data[x]), true);
+                            break;
+                        default:
                             setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), device[DeviceIndex].data[x], true);
-                        };
+                    };
 
-                        break;
-                    case 'rgb': //Umwandlung von Dezimal RGB zu Hex Rgb
-                        // log(ConvertDeziToHex(device[DeviceIndex].data[x]))
-                        setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), ConvertDeziToHex(device[DeviceIndex].data[x]), true);
-
-                        break;
-                    default:
-                        setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), device[DeviceIndex].data[x], true);
-
-                };
-
-
+                }
                 //  if (logging) log("Refreshing " + praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x) + " / value=" + device[DeviceIndex].data[x] + " / read=" + device[DeviceIndex].definition.common[y].read + " write=" + device[DeviceIndex].definition.common[y].write);
             };
         };
