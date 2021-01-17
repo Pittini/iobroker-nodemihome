@@ -5,6 +5,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Auslesen von Token und anderen Devicedaten via CloudLogin
 * Steuerung und Information von Xiaomi Geräten
 
+
+
 ## Aktuell vom Skript unterstütze Geräte - Name - Model - (lesen/schreiben):
 
 ### Fans
@@ -19,7 +21,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (in progress)
-* Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (in progress)
+* Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll waiting for pr)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
@@ -51,6 +53,9 @@ Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 
 ## Changelog
+#### 16.01.21 (0.2.4)
+- Fix: Purifier, alle Modelle, Filterproperties korrigiert.
+- Fix: Fehler bei leeren Datenpaketen behoben.
 #### 16.01.21 (0.2.3)
 - Add:  Modelle hinzugefügt
 #### 05.01.21 (0.2.0)
@@ -60,3 +65,8 @@ Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
 - Fix: Problem mit unterschiedlichen dids behoben
 #### 3.12.20 (V0.1.4)
 - Add: Init
+
+.   
+**If you like it, please consider a donation:**
+                                                                          
+[![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
