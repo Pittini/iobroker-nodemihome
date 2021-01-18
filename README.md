@@ -21,7 +21,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (in progress)
-* Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll waiting for pr)
+* Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
@@ -46,11 +46,8 @@ Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (
 In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten.
 
 ## Known Issues
-### Xiaomi Air Purifier 3H
-- Mode kann gelesen aber nicht gesetzt werden.  
-Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
-- FilterLifetime wird nicht angezeigt.  
-Gefixt sobald gemerged wird: https://github.com/maxinminax/node-mihome/pull/15
+### Alle Farblampen
+- Farbe kann nicht gesetzt werden
 
 ## Changelog
 #### 16.01.21 (0.2.4)
