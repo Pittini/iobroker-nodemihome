@@ -153,10 +153,10 @@ DefineDevice[13] = { // Tested and working
         { name: "filter.filter-used-time", format: "number", read: true, write: false, unit: "h" },
         { name: "physical-controls-locked.physical-controls-locked", format: "boolean", read: true, write: true, min: false, max: true }]
 };
-DefineDevice[14] = { // in progress
+DefineDevice[14] = { // in progress, untested
     info: {},
-    model: "zhimi.airpurifier.mb4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mb4:2
-    description: "Mi Air Purifier 3 C",
+    model: "zhimi.airpurifier.v7",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-v7:1
+    description: "Mi Air Purifier",
     setter: {
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "mode": async function (obj, val) { await device[obj].setFanLevel(val) },
@@ -201,6 +201,33 @@ this._propertiesToMonitor = [
     'child_lock', // Child lock (on / off)
 ];
 
+DefineDevice[15] = { // Tested and working
+    info: {},
+    model: "zhimi.airpurifier.mb4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mb4:2
+    description: "Purifier 3C",
+    setter: {
+        "air-purifier.on": async function (obj, val) { await device[obj].setPower(val) },
+        "air-purifier.mode": async function (obj, val) { await device[obj].setMode(val) },
+        "air-purifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
+    },
+    common:
+        [{ name: "air-purifier.on", format: "boolean", read: true, write: true, min: false, max: true },
+        { name: "air-purifier.fault", format: "number", read: true, write: false, min: 0, max: 5, states: { 0: "No faults", 1: "m1_run", 2: "m1_stuck", 3: "no_sensor", 4: "error_hum", 5: "error_temp" } },
+        { name: "air-purifier.mode", format: "number", read: true, write: true, min: 0, max: 3, states: { 0: "auto", 1: "sleep", 2: "favorite", 3: "fanset" } },
+        { name: "air-purifier.fan-level", format: "number", read: true, write: true, min: 1, max: 3 },
+        { name: "alarm.alarm", format: "boolean", read: true, write: true, min: false, max: true },
+        { name: "indicator-light.brightness", format: "number", read: true, write: true, min: 0, max: 2 },
+        { name: "indicator-light.on", format: "boolean", read: true, write: true, min: false, max: true },
+        { name: "environment.temperature", format: "number", read: true, write: false, min: -40, max: 125, unit: "°C" },
+        { name: "environment.relative-humidity", format: "number", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "environment.pm2_5-density", format: "number", read: true, write: false, min: 0, max: 600 },
+        { name: "filter.filter-life-level", format: "number", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "filter.filter-used-time", format: "number", read: true, write: false, unit: "h" },
+        { name: "physical-controls-locked.physical-controls-locked", format: "boolean", read: true, write: true, min: false, max: true }]
+};
 
 
 // ***************************** Fans *********************************
