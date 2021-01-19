@@ -50,6 +50,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Farbe kann nicht gesetzt werden
 
 ## Changelog
+#### 19.01.21 (0.2.5)
+- Add: Purifier 3C zum testen hinzugefügt.
 #### 16.01.21 (0.2.4)
 - Fix: Purifier, alle Modelle, Filterproperties korrigiert.
 - Fix: Fehler bei leeren Datenpaketen behoben.
