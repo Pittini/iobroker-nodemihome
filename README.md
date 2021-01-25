@@ -15,18 +15,19 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
-* Smartmi Evaporative Humidifier  - deerma.humidifier.jsq   - (in progress)
-* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (in progress)
+* Smartmi Evaporative Humidifier  - deerma.humidifier.jsq   - (ready to test)
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (ready to test)
 
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
-* Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (in progress)
+* Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (ready to test)
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
+* Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
 * Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw.)
-* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/teilw.)
+* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr)
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
 
@@ -50,6 +51,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Farbe kann nicht gesetzt werden
 
 ## Changelog
+#### 25.01.21 (0.2.7)
+- Change: Statt wie bisher bei Datenänderung das gesamte Device zu aktualisieren werden nun nur noch geänderte Werte aktualisiert.
 #### 19.01.21 (0.2.5)
 - Add: Purifier 3C zum testen hinzugefügt.
 #### 16.01.21 (0.2.4)
