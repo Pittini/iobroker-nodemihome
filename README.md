@@ -51,6 +51,9 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Farbe kann nicht gesetzt werden
 
 ## Changelog
+#### 01.02.21 (0.2.8)
+- Add: Purifier 2H integriert und getestet (https://github.com/Pittini/iobroker-nodemihome/issues/6)
+- Change: Interne Codeänderungen und Ergänzungen.
 #### 25.01.21 (0.2.7)
 - Change: Statt wie bisher bei Datenänderung das gesamte Device zu aktualisieren werden nun nur noch geänderte Werte aktualisiert.
 #### 19.01.21 (0.2.5)
