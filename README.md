@@ -36,8 +36,13 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
   ###  Vorraussetzungen: 
    1. Installierter "JavaScript Adapter" aka "Script Engine" ab Version 4.8.0   
    ![iobnmhtut2.jpg](/admin/iobnmhtut2.jpg) 
-   2. Im Javascript Adapter als Zusatzmodul eingetragene "node-mihome".   
+   2. Im Javascript Adapter als Zusatzmodul eingetragene "node-mihome" und setObject zugelassen.   
    ![iobnmhtut1.jpg](/admin/iobnmhtut1.jpg) 
+   
+      ## Aufgepasst! 
+      Da der node-mihome Entwickler aktuell inaktiv ist und keine PRs merged, hab ich das ganze mal geforked.  Ihr könnt also jetzt statt dem original, die Fork angeben. Dies hat den Vorteil, dass individuell geänderte Dateien nicht mehr nach jedem JS update neu einkopiert werden müssen.
+
+      ![iobnmhtut2a.png](/admin/iobnmhtut2a.png) 
    3. Du kennst Deine Logindaten der Xiaomi Cloud (egal ob EU oder Chinaserver) und hast diese in den Skripteinstellungen eingetragen.
    4. Du weist auf welchem Server (Mainland China oder De) Dein Gerät registriert ist und hast dies in den Skripteinstellung, bei "options" eingetragen.
    5. Du legst ein neues JS Projekt an und kopierst das Skript dort hinein
