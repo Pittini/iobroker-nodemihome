@@ -57,6 +57,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 
 ## Changelog
 #### 01.02.21 (0.2.8)
+- Fix: Falschen Datentyp für alarm.alarm beim Airpurifier 3H korrigiert. https://github.com/Pittini/iobroker-nodemihome/issues/14
+#### 01.02.21 (0.2.8)
 - Add: Purifier 2H integriert und getestet (https://github.com/Pittini/iobroker-nodemihome/issues/6)
 - Change: Interne Codeänderungen und Ergänzungen.
 #### 25.01.21 (0.2.7)
