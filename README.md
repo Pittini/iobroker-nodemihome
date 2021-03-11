@@ -30,6 +30,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr)
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
+* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (ready to test)
 
 
 ## Installation:
@@ -56,7 +57,9 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Farbe kann nicht gesetzt werden
 
 ## Changelog
-#### 01.02.21 (0.2.8)
+#### 11.03.21 (0.2.10)
+- Add: Mi LED Desk Lamp 1S aka yeelink.light.lamp4
+#### 01.02.21 (0.2.9)
 - Fix: Falschen Datentyp für alarm.alarm beim Airpurifier 3H korrigiert. https://github.com/Pittini/iobroker-nodemihome/issues/14
 #### 01.02.21 (0.2.8)
 - Add: Purifier 2H integriert und getestet (https://github.com/Pittini/iobroker-nodemihome/issues/6)
