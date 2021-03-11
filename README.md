@@ -50,11 +50,19 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
    6. Du trägst im Skript Usernamen und Passwort Deines Xiaomi Cloudzugangs ein
 
 Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (abhängig von der Anzahl der Geräte welche Du besitzt) finden, mit den jeweiligen Basisdaten wie Ip Adresse, Token usw.
-In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten.
+In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten.   
+  
+
+## Anleitung für Testintegration - NUR nach Aufforderung!
+1. Die Device Definitionsdatei welche von mir genannt wurde von hier: https://github.com/Pittini/node-mihome/tree/master/lib/devices nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
+2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
+3. Die aktuellste Skriptversion installieren und starten.
+   
 
 ## Known Issues
 ### Alle Farblampen
 - Farbe kann nicht gesetzt werden
+- Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. Alternativ kann, wie unter .2 der Installation angeführt, statt node-mihome auch meine Fork angegeben werden (siehe Bilder). Das kklappt meist, aber offenbar nicht immer. Wenns nicht klappt, bleibt nur die klassische Methode des wartens auf den node-mihome Entwickler.
 
 ## Changelog
 #### 11.03.21 (0.2.10)
