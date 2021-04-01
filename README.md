@@ -30,7 +30,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr)
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
-* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (ready to test)
+* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll - waiting for pr)
 
 
 ## Installation:
