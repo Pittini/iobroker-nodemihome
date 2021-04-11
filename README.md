@@ -10,8 +10,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ## Aktuell vom Skript unterstütze Geräte - Name - Model - (lesen/schreiben):
 
 ### Fans
-* Roussou Fan                     - leshow.fan.ss4 - (voll/voll)
-* Fan                             - zhimi.fan.za4 - (ready to test)
+* Roussou Fan                     - leshow.fan.ss4          - (voll/voll)
+* Fan                             - zhimi.fan.za4           - (ready to test)
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
@@ -20,9 +20,10 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
-* Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (ready to test)
+* Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (voll/voll)
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
 * Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr)
+* Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
@@ -65,6 +66,9 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. Alternativ kann, wie unter .2 der Installation angeführt, statt node-mihome auch meine Fork angegeben werden (siehe Bilder). Das kklappt meist, aber offenbar nicht immer. Wenns nicht klappt, bleibt nur die klassische Methode des wartens auf den node-mihome Entwickler.
 
 ## Changelog
+#### 11.03.21 (0.2.11)
+- Fix: Problem mit "led" beim Purifier Pro behoben
+- Add: Purifier Pro (ohne H) integriert
 #### 11.03.21 (0.2.10)
 - Add: Mi LED Desk Lamp 1S aka yeelink.light.lamp4
 #### 01.02.21 (0.2.9)
