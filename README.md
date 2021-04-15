@@ -11,7 +11,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 
 ### Fans
 * Roussou Fan                     - leshow.fan.ss4          - (voll/voll)
-* Fan                             - zhimi.fan.za4           - (ready to test)
+* Mi Fan 2S                       - zhimi.fan.za4           - (voll/voll)
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
@@ -41,8 +41,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
    2. Im Javascript Adapter als Zusatzmodul eingetragene "node-mihome" und setObject zugelassen.   
    ![iobnmhtut1.jpg](/admin/iobnmhtut1.jpg) 
    
-      ## Aufgepasst! 
-      Da der node-mihome Entwickler aktuell inaktiv ist und keine PRs merged, hab ich das ganze mal geforked.  Ihr könnt also jetzt statt dem original, die Fork angeben. Dies hat den Vorteil, dass individuell geänderte Dateien nicht mehr nach jedem JS update neu einkopiert werden müssen.
+      
 
       ![iobnmhtut2a.png](/admin/iobnmhtut2a.png) 
    3. Du kennst Deine Logindaten der Xiaomi Cloud (egal ob EU oder Chinaserver) und hast diese in den Skripteinstellungen eingetragen.
@@ -63,10 +62,12 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 ## Known Issues
 ### Alle Farblampen
 - Farbe kann nicht gesetzt werden
-- Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. Alternativ kann, wie unter .2 der Installation angeführt, statt node-mihome auch meine Fork angegeben werden (siehe Bilder). Das kklappt meist, aber offenbar nicht immer. Wenns nicht klappt, bleibt nur die klassische Methode des wartens auf den node-mihome Entwickler.
+- Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
 
 ## Changelog
-#### 11.03.21 (0.2.11)
+#### 15.04.21 (0.2.12)
+- Fix: Probleme beim power Datenpunkt vom Mi Fan 2S und Mi Desk Lamp 1S behoben. https://github.com/Pittini/iobroker-nodemihome/issues/21 + https://github.com/Pittini/iobroker-nodemihome/issues/20
+#### 11.04.21 (0.2.11)
 - Fix: Problem mit "led" beim Purifier Pro behoben
 - Add: Purifier Pro (ohne H) integriert
 #### 11.03.21 (0.2.10)
