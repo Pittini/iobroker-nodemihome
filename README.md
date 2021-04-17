@@ -64,6 +64,10 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 - Farbe kann nicht gesetzt werden
 - Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
 
+**If you like it, please consider a donation:**
+                                                                          
+[![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
+
 ## Changelog
 #### 15.04.21 (0.2.12)
 - Fix: Probleme beim power Datenpunkt vom Mi Fan 2S und Mi Desk Lamp 1S behoben. https://github.com/Pittini/iobroker-nodemihome/issues/21 + https://github.com/Pittini/iobroker-nodemihome/issues/20
