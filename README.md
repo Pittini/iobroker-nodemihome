@@ -44,9 +44,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
    
       
 
-      ![iobnmhtut2a.png](/admin/iobnmhtut2a.png) 
-   3. Du kennst Deine Logindaten der Xiaomi Cloud (egal ob EU oder Chinaserver) und hast diese in den Skripteinstellungen eingetragen.
-   4. Du weist auf welchem Server (Mainland China oder De) Dein Gerät registriert ist und hast dies in den Skripteinstellung, bei "options" eingetragen.
+   3. Du kennst Deine Logindaten der Xiaomi Cloud (aka Mi Home App) (egal ob EU oder Chinaserver) und hast diese in den Skripteinstellungen eingetragen.
+   4. Du weist auf welchem Server (Mainland China oder De) Dein Gerät registriert ist und hast dies in den Skripteinstellungen, bei "options" eingetragen.
    5. Du legst ein neues JS Projekt an und kopierst das Skript dort hinein
    6. Du trägst im Skript Usernamen und Passwort Deines Xiaomi Cloudzugangs ein
 
@@ -54,7 +53,7 @@ Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (
 In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten, u.a. dem Modelnamen. Merk oder notier Dir diesen, im nächsten Schritt mußt Du die entsprechende Definitionsdatei kopieren.   
   
 
-## Anleitung für Integration nicht in node-mihome vorhandenr Geräte (siehe oben, alles wo "waiting for pr merge" steht)!
+## Anleitung für Integration nicht in der originalen node-mihome vorhandener Geräte (siehe oben, alles wo "waiting for pr merge" steht)!
 1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
 2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
 3. Die aktuellste Skriptversion installieren und starten.
