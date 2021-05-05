@@ -12,6 +12,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Fans
 * Roussou Fan                     - leshow.fan.ss4          - (voll/voll)
 * Mi Fan 2S                       - zhimi.fan.za4           - (voll/voll)
+* Mi Smart Standing Fan Pro       - dmaker.fan.p15          - (voll/voll - waiting for pr merge)
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
@@ -22,16 +23,16 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (voll/voll)
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
-* Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr)
+* Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr merge)
 * Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
-* Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw.)
-* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr)
+* Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw. - waiting for pr merge)
+* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr merge)
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
-* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll - waiting for pr)
+* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll - waiting for pr merge)
 
 
 ## Installation:
@@ -50,11 +51,11 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
    6. Du trägst im Skript Usernamen und Passwort Deines Xiaomi Cloudzugangs ein
 
 Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (abhängig von der Anzahl der Geräte welche Du besitzt) finden, mit den jeweiligen Basisdaten wie Ip Adresse, Token usw.
-In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten.   
+In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten, u.a. dem Modelnamen. Merk oder notier Dir diesen, im nächsten Schritt mußt Du die entsprechende Definitionsdatei kopieren.   
   
 
-## Anleitung für Testintegration - NUR nach Aufforderung!
-1. Die Device Definitionsdatei welche von mir genannt wurde von hier: https://github.com/Pittini/node-mihome/tree/master/lib/devices nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
+## Anleitung für Integration nicht in node-mihome vorhandenr Geräte (siehe oben, alles wo "waiting for pr merge" steht)!
+1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
 2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
 3. Die aktuellste Skriptversion installieren und starten.
    
@@ -69,6 +70,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 04.05.21 (0.2.13)
+* Add: Mi Smart Standing Fan Pro hinzugefügt.
 #### 15.04.21 (0.2.12)
 - Fix: Probleme beim power Datenpunkt vom Mi Fan 2S und Mi Desk Lamp 1S behoben. https://github.com/Pittini/iobroker-nodemihome/issues/21 + https://github.com/Pittini/iobroker-nodemihome/issues/20
 #### 11.04.21 (0.2.11)
