@@ -300,9 +300,9 @@ DefineDevice[17] = { // untested
         { name: "fan.status", type: "number", role: "indicator", read: true, write: false, min: 1, max: 100 },
         { name: "indicator-light.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
-        { name: "motor-controller.motor-control", type: "number", role: "indicator", read: false, write: true, min: 0, max: 2, states: { 0: "None", 1: "Left", 2: "Right" } },
+        { name: "motor-controller.motor-control", type: "number", role: "switch", read: false, write: true, min: 0, max: 2, states: { 0: "None", 1: "Left", 2: "Right" } },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "off-delay-time.off-delay-time", type: "number", role: "indicator", read: true, write: false, min: 1, max: 480 , unit: "m"}
+        { name: "off-delay-time.off-delay-time", type: "number", role: "switch", read: true, write: true, min: 1, max: 480 , unit: "m"}
         ]
 };
 // ***************************** Lights *********************************
