@@ -25,6 +25,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
 * Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr merge)
 * Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
+* Air Purifier                    - zhimi.airpurifier.ma4   - (ready to test)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
@@ -69,6 +70,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 04.05.21 (0.2.13)
+* Add: Testintegration Air Purifier > zhimi.airpurifier.ma4
 #### 04.05.21 (0.2.13)
 * Add: Mi Smart Standing Fan Pro hinzugefügt.
 #### 15.04.21 (0.2.12)
