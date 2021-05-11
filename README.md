@@ -13,6 +13,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Roussou Fan                     - leshow.fan.ss4          - (voll/voll)
 * Mi Fan 2S                       - zhimi.fan.za4           - (voll/voll)
 * Mi Smart Standing Fan Pro       - dmaker.fan.p15          - (voll/voll - waiting for pr merge)
+* Mi Smart Standing Fan 1C        - dmaker.fan.1c           - (ready to test)
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
@@ -70,7 +71,10 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
-#### 04.05.21 (0.2.13)
+#### 11.05.21 (0.2.15)
+* Add: Testintegration Mi Smart Standing Fan 1C > dmaker.fan.1c. https://github.com/Pittini/iobroker-nodemihome/issues/27
+* Add: Automatische Konvertierung von String zu Zahl (wenn möglich) um Probleme mit Vis jqui input zu vermeiden.
+#### 04.05.21 (0.2.14)
 * Add: Testintegration Air Purifier > zhimi.airpurifier.ma4
 #### 04.05.21 (0.2.13)
 * Add: Mi Smart Standing Fan Pro hinzugefügt.
