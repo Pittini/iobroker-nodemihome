@@ -27,7 +27,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr merge)
 * Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
 * Air Purifier                    - zhimi.airpurifier.ma4   - (ready to test)
-* Xiaomi Air Purifier S2          - zhimi.airpurifier.mc1   - (ready to test)
+* Xiaomi Air Purifier 2S          - zhimi.airpurifier.mc1   - (voll/voll)
 
 
 ### Lights
@@ -74,9 +74,9 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 
 ## Changelog
 #### 20.05.21 (0.2.15)
-* Add: Testintegration Mi Air Purifier S2 > zhimi.airpurifier.mc1 https://github.com/Pittini/iobroker-nodemihome/issues/28
+* Add: Integration Mi Air Purifier 2S > zhimi.airpurifier.mc1 https://github.com/Pittini/iobroker-nodemihome/issues/28
 #### 11.05.21 (0.2.15)
-* Add: Testintegration Mi Smart Standing Fan 1C > dmaker.fan.1c. https://github.com/Pittini/iobroker-nodemihome/issues/27
+* Add: Integration Mi Smart Standing Fan 1C > dmaker.fan.1c. https://github.com/Pittini/iobroker-nodemihome/issues/27
 * Add: Automatische Konvertierung von String zu Zahl (wenn möglich) um Probleme mit Vis jqui input zu vermeiden.
 #### 04.05.21 (0.2.14)
 * Add: Testintegration Air Purifier > zhimi.airpurifier.ma4
