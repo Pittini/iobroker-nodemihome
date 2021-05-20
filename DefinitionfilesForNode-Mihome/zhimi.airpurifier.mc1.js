@@ -3,7 +3,7 @@ const Device = require('../device-miio');
 module.exports = class extends Device {
 
   static model = 'zhimi.airpurifier.mc1';
-  static name = 'Mi Air Purifier S2';
+  static name = 'Mi Air Purifier 2S';
   static image = 'https://static.home.mi.com/app/image/get/file/developer_15470144879uw2ei4h.png';
 
   constructor(opts) {
@@ -11,7 +11,17 @@ module.exports = class extends Device {
 
     this._propertiesToMonitor = [
       'power',
-      'mode'
+      'mode',
+      'favorite_level',
+      'temp_dec',
+      'humidity',
+      'aqi',
+      'buzzer',
+      'led',
+      'filter1_life',
+      'f1_hour',
+      'f1_hour_used',
+      'child_lock'
     ];
   }
 

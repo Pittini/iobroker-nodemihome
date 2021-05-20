@@ -114,7 +114,6 @@ DefineDevice[20] = {  // untested - https://github.com/Pittini/iobroker-nodemiho
         "mode": async function (obj, val) { await device[obj].setMode(val) },
         "favorite_level": async function (obj, val) { await device[obj].setFavoriteLevel(val) },
         "led": async function (obj, val) { await device[obj].setLed(val) },
-        "led_b": async function (obj, val) { await device[obj].setLedB(val) },
         "buzzer": async function (obj, val) { await device[obj].setBuzzer(val) },
         "child_lock": async function (obj, val) { await device[obj].setChildLock(val) }
     },
@@ -125,14 +124,11 @@ DefineDevice[20] = {  // untested - https://github.com/Pittini/iobroker-nodemiho
         { name: "temp_dec", type: "number", role: "value.temperature", read: true, write: false, min: -40.0, max: 525.0, unit: "°C" },
         { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
-        { name: "average_aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
         { name: "led", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "led_b", type: "number", role: "state", read: true, write: true, min: 0, max: 2, states: { 0: "bright", 1: "dim", 2: "off" } },
         { name: "buzzer", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "filter1_life", type: "number", role: "value", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "f1_hour", type: "number", role: "value", read: true, write: false, unit: "h" },
         { name: "f1_hour_used", type: "number", role: "value", read: true, write: false, unit: "h" },
-        { name: "motor1_speed", type: "number", role: "value", read: true, write: false, unit: "rpm" },
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
