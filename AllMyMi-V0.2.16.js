@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.15"; //vom 11.05.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.16"; //vom 20.05.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -26,7 +26,7 @@ const logging = false; //Logging aktivieren/deaktivieren
 // ######### TESTBEREICH ################
 //const axios = require('axios');
 
-//let miotDefinition= getMiotData('https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mb3:2');
+//let miotDefinition= getMiotData('https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mc1:1');
 
 async function getMiotData(url) {
     if (logging) log("Reaching MiotUrlConstructor");
@@ -104,6 +104,38 @@ DefineDevice[0] = { // Tested and working
         { name: "filter.filter-used-time", type: "number", read: true, write: false, unit: "h" },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
+
+DefineDevice[20] = {  // untested - https://github.com/Pittini/iobroker-nodemihome/issues/28
+    info: {},
+    model: "zhimi.airpurifier.mc1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mc1:1
+    description: "Purifier 2S",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) },
+        "mode": async function (obj, val) { await device[obj].setMode(val) },
+        "favorite_level": async function (obj, val) { await device[obj].setFavoriteLevel(val) },
+        "led": async function (obj, val) { await device[obj].setLed(val) },
+        "led_b": async function (obj, val) { await device[obj].setLedB(val) },
+        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "mode", type: "string", role: "state", read: true, write: true, states: { "auto": "auto", "silent": "silent", "favorite": "favorite" } },
+        { name: "favorite_level", type: "number", role: "state", read: true, write: true, min: 0, max: 16 },
+        { name: "temp_dec", type: "number", role: "value.temperature", read: true, write: false, min: -40.0, max: 525.0, unit: "°C" },
+        { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
+        { name: "average_aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
+        { name: "led", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "led_b", type: "number", role: "state", read: true, write: true, min: 0, max: 2, states: { 0: "bright", 1: "dim", 2: "off" } },
+        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "filter1_life", type: "number", role: "value", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "f1_hour", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "f1_hour_used", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "motor1_speed", type: "number", role: "value", read: true, write: false, unit: "rpm" },
+        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
+};
+
 
 DefineDevice[8] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/6
     info: {},
@@ -480,7 +512,7 @@ DefineDevice[3] = { // Tested and working
         "mode": async function (obj, val) { await device[obj].setFanLevel(val) },
         "limit_hum": async function (obj, val) { await device[obj].setTargetHumidity(val) },
         "led": async function (obj, val) { await device[obj].setLedBrightness(val) },
-        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ) },
         "dry": async function (obj, val) { await device[obj].setMode(val ? 'dry' : 'humidify') }
     },
     common:
