@@ -73,6 +73,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 07.06.21 (0.2.17)
+* Fix: Mi Fan 2S > zhimi.fan.za4 Datenpunkte für Drehwinkel, Winkelaktivierung und Normal/Natural korrigiert https://github.com/Pittini/iobroker-nodemihome/issues/31
 #### 20.05.21 (0.2.15)
 * Add: Integration Mi Air Purifier 2S > zhimi.airpurifier.mc1 https://github.com/Pittini/iobroker-nodemihome/issues/28
 #### 11.05.21 (0.2.15)
