@@ -37,6 +37,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
 * Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll - waiting for pr merge)
+* Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling1  - (in progress)
 
 
 ## Installation:
@@ -75,7 +76,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 ## Changelog
 #### 07.06.21 (0.2.17)
 * Fix: Mi Fan 2S > zhimi.fan.za4 Datenpunkte für Drehwinkel, Winkelaktivierung und Normal/Natural korrigiert https://github.com/Pittini/iobroker-nodemihome/issues/31
-#### 20.05.21 (0.2.15)
+* Add: Testintegration Yeelight YLDL01YL Meteorite Pendelleuchte > yeelink.light.ceiling10 https://github.com/Pittini/iobroker-nodemihome/issues/29
+#### 20.05.21 (0.2.16)
 * Add: Integration Mi Air Purifier 2S > zhimi.airpurifier.mc1 https://github.com/Pittini/iobroker-nodemihome/issues/28
 #### 11.05.21 (0.2.15)
 * Add: Integration Mi Smart Standing Fan 1C > dmaker.fan.1c. https://github.com/Pittini/iobroker-nodemihome/issues/27

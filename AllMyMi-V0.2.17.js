@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.17"; //vom 07.06.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.17"; //vom 22.05.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -323,7 +323,7 @@ DefineDevice[9] = { // Tested and working
         [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
         { name: "angle", type: "number", read: true, write: true, min: 1, max: 120 },
         { name: "angle_enable", type: "boolean", role: "switch", read: true, write: true },
-        { name: "natural_level", type: "number", read: true, write: true, min: 0, max: 1 ,states: { 0: "Straight Wind", 1: "Natural Wind" }},
+        { name: "natural_level", type: "number", read: true, write: true, min: 0, max: 1, states: { 0: "Straight Wind", 1: "Natural Wind" } },
         { name: "buzzer", type: "boolean", role: "switch", read: true, write: true },
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true },
         { name: "led_b", type: "boolean", role: "switch", read: true, write: true },
@@ -481,6 +481,38 @@ DefineDevice[11] = { // untested
         { name: "ct", type: "number", read: true, write: true, min: 1700, max: 6500 }]
 };
 
+DefineDevice[21] = { // untested
+    info: {},
+    model: "yeelink.light.ceiling10",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling10:1
+    description: "Yeelight Crystal Pedestal Light",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) },
+        "main_power": async function (obj, val) { await device[obj].setMainPower(val) },
+        "bg_power": async function (obj, val) { await device[obj].setBgPower(val) },
+        "bg_bright": async function (obj, val) { await device[obj].setBgBrightness(val) },
+        "active_bright": async function (obj, val) { await device[obj].setActiveBrightness(val) },
+        "color_mode": async function (obj, val) { await device[obj].setColorMode(val) },
+        "ct": async function (obj, val) { await device[obj].setColorTemperature(val) },
+        "bg_ct": async function (obj, val) { await device[obj].setBgColorTemperature(val) },
+        "bg_rgb": async function (obj, val) { await device[obj].setBgColorRgb(val) },
+        "bg_hue": async function (obj, val) { await device[obj].setBgColorHSV([val, 100]) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "main_power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "bg_power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "bg_bright", type: "number", role: 'level.dimmer', read: true, write: true, min: 1, max: 100, unit: "%" },
+        { name: "active_bright", type: "number", role: 'level.dimmer', read: true, write: true, min: 1, max: 100, unit: "%" },
+        { name: "color_mode", type: "boolean", role: 'switch.mode.color', read: true, write: true },
+        { name: "moon_mode", type: "boolean", role: 'switch.mode.moon', read: true, write: true },
+        { name: "bg_ct", type: "number", role: 'level.color.temperature', read: true, write: true, min: 2600, max: 6500, unit: "K" },
+        { name: "ct", type: "number", role: 'level.color.temperature', read: true, write: true, min: 2600, max: 6500, unit: "K" },
+        { name: "bg_rgb", type: "string",role: 'level.color.rgb', read: true, write: true },
+        { name: "bg_hue", type: "number", role: 'level.color.hue', read: true, write: true, min: 0, max: 359 },
+        { name: "bg_sat", type: "number", role: 'level.color.saturation', read: true, write: true, min: 1, max: 100 }]
+};
+
+
 DefineDevice[16] = { // untested
     info: {},
     model: "yeelink.light.lamp4",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:yeelink-lamp4:1
@@ -508,7 +540,7 @@ DefineDevice[3] = { // Tested and working
         "mode": async function (obj, val) { await device[obj].setFanLevel(val) },
         "limit_hum": async function (obj, val) { await device[obj].setTargetHumidity(val) },
         "led": async function (obj, val) { await device[obj].setLedBrightness(val) },
-        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ) },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val) },
         "dry": async function (obj, val) { await device[obj].setMode(val ? 'dry' : 'humidify') }
     },
     common:
@@ -683,7 +715,7 @@ function WriteGenericDpValues() { //Alle vorhandenen generischen Werte einlesen 
     if (logging) log("Reaching WriteGenericDpValues()");
     for (let x in AllDevicesRaw) { //Alle vorhandenen Xiaomi Devices durchgehen
         for (let y in DefineDevice[0].info) { //Nimm ersten Eintrag aus DefineDevices da die Generics bei allen gleich sind
-            setState(praefix0 + "." + AllDevicesRaw[x].did + ".info." + DefineDevice[0].info[y].id, AllDevicesRaw[x][DefineDevice[0].info[y].id],true);
+            setState(praefix0 + "." + AllDevicesRaw[x].did + ".info." + DefineDevice[0].info[y].id, AllDevicesRaw[x][DefineDevice[0].info[y].id], true);
             // log("DefineDevice[" + 0 + "].info[" + y + "]=" + JSON.stringify(DefineDevice[0].info[y]));
             // log("" + praefix0 + "." + AllDevicesRaw[x].did + ".Info." + DefineDevice[0].info[y].id)
             // log(AllDevicesRaw[x][DefineDevice[0].info[y].id])
@@ -885,7 +917,7 @@ function CheckDataTypeAndConvert(value, HasToBe) {
         } else {
             return parseFloat(value);
         };
-    } else{
+    } else {
         return value;
     };
 }
