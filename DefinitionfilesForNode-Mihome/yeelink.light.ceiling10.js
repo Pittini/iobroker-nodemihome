@@ -3,8 +3,8 @@ const { withLightEffect } = require('../utils');
 
 module.exports = class extends Device {
 
-  static model = 'yeelink.light.ceiling1';
-  static name = 'Yeelight LED Ceiling Light';
+  static model = 'yeelink.light.ceiling10';
+  static name = 'Yeelight Meteorite Light';
   static image = 'http://static.home.mi.com/app/image/get/file/developer_1500887836qfgbqwws.png';
 
   constructor(opts) {
