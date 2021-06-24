@@ -24,27 +24,27 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (voll/voll)
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
-* Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll - waiting for pr merge)
+* Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll)
 * Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
 * Air Purifier                    - zhimi.airpurifier.ma4   - (ready to test)
 * Xiaomi Air Purifier 2S          - zhimi.airpurifier.mc1   - (voll/voll)
-
+* Xiaomi Air Purifier 2           - zhimi.airpurifier.m1    - (ready to test)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
-* Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw. - waiting for pr merge)
-* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll - waiting for pr merge)
+* Yeelight LED Bulb (Color)       - yeelink.light.color2    - (voll/teilw.)
+* Yeelight LED Bulb (Tunable)     - yeelink.light.ct2       - (voll/voll)
 * Yeelight Crystal Pedestal Light - yeelink.light.ceiling1  - (in progress)
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
-* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll - waiting for pr merge)
-* Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling1  - (in progress)
+* Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll)
+* Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling10 - (voll/voll)
 
 
 ## Installation:
   ###  Vorraussetzungen: 
    1. Installierter "JavaScript Adapter" aka "Script Engine" ab Version 4.8.0   
    ![iobnmhtut2.jpg](/admin/iobnmhtut2.jpg) 
-   2. Im Javascript Adapter als Zusatzmodul eingetragene "node-mihome" und setObject zugelassen.   
+   2. Im Javascript Adapter als Zusatzmodul eingetragene "node-mihome" und "setObject" zugelassen.   
    ![iobnmhtut1.jpg](/admin/iobnmhtut1.jpg) 
    
       
@@ -58,7 +58,7 @@ Nach dem Start solltest Du nun unter "javaskript.0.MiHomeAll" etliche Channels (
 In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mit weiteren Datenpunkten, u.a. dem Modelnamen. Merk oder notier Dir diesen, im nächsten Schritt mußt Du die entsprechende Definitionsdatei kopieren.   
   
 
-## Anleitung für Integration nicht in der originalen node-mihome vorhandener Geräte (siehe oben, alles wo "waiting for pr merge" steht)!
+## Anleitung für Integration nicht in der originalen node-mihome vorhandener Geräte (inzwischen fast alle, bitte nach dieser Anleitung vorgehen)!
 1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
 2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
 3. Die aktuellste Skriptversion installieren und starten.
@@ -74,16 +74,18 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 24.06.21 (0.2.18)
+* Add: Testintegration Mi Air Purifier 2 > zhimi.airpurifier.m1 https://github.com/Pittini/iobroker-nodemihome/issues/34
 #### 07.06.21 (0.2.17)
 * Fix: Mi Fan 2S > zhimi.fan.za4 Datenpunkte für Drehwinkel, Winkelaktivierung und Normal/Natural korrigiert https://github.com/Pittini/iobroker-nodemihome/issues/31
-* Add: Testintegration Yeelight YLDL01YL Meteorite Pendelleuchte > yeelink.light.ceiling10 https://github.com/Pittini/iobroker-nodemihome/issues/29
+* Add: Integration Yeelight YLDL01YL Meteorite Pendelleuchte > yeelink.light.ceiling10 https://github.com/Pittini/iobroker-nodemihome/issues/29
 #### 20.05.21 (0.2.16)
 * Add: Integration Mi Air Purifier 2S > zhimi.airpurifier.mc1 https://github.com/Pittini/iobroker-nodemihome/issues/28
 #### 11.05.21 (0.2.15)
 * Add: Integration Mi Smart Standing Fan 1C > dmaker.fan.1c. https://github.com/Pittini/iobroker-nodemihome/issues/27
 * Add: Automatische Konvertierung von String zu Zahl (wenn möglich) um Probleme mit Vis jqui input zu vermeiden.
 #### 04.05.21 (0.2.14)
-* Add: Testintegration Air Purifier > zhimi.airpurifier.ma4
+* Add: Integration Air Purifier > zhimi.airpurifier.ma4
 #### 04.05.21 (0.2.13)
 * Add: Mi Smart Standing Fan Pro hinzugefügt.
 #### 15.04.21 (0.2.12)
