@@ -338,7 +338,7 @@ DefineDevice[9] = { // Tested and working
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "angle": async function (obj, val) { await device[obj].setSwingAngle(val) },
         "angle_enable": async function (obj, val) { await device[obj].setSwing(val) },
-        "natural_level": async function (obj, val) { await device[obj].setSpeedMode((val == 1) ? true : false) },
+        "natural_level": async function (obj, val) { await device[obj].setSleepMode((val == 1) ? true : false) },
         "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
         "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
         "led_b": async function (obj, val) { await device[obj].setLcdBrightness(val) },
