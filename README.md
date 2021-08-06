@@ -75,6 +75,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 06.08.21 (0.2.24)
+* Fix: Rssi und isOnline werden nun korrekt refresht
 #### 24.06.21 (0.2.23)
 * Add: Integration Mi Smart Standing Fan 2 > dmaker.fan.p18 https://github.com/Pittini/iobroker-nodemihome/issues/37
 * Fix: Kleinere interne Bugs

@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.17"; //vom 22.05.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.24"; //vom 06.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -23,44 +23,13 @@ const logging = false; //Logging aktivieren/deaktivieren
 
 
 */
-// ######### TESTBEREICH ################
-//const axios = require('axios');
-
-//let miotDefinition= getMiotData('https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mc1:1');
-
-async function getMiotData(url) {
-    if (logging) log("Reaching MiotUrlConstructor");
-    try {
-        const response = await axios.get(url, { timeout: 10000 });
-        log("resp:" + JSON.stringify(response.data));
-        for (let z in Object.keys(response.data.services)) {
-            log("Keys=" + Object.keys(response.data.services[z]))
-            log(JSON.stringify(response.data.services[z]))
-        }
-
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-function MiotUrlConstructor(miotdevice) {
-    if (logging) log("Reaching MiotUrlConstructor");
-    let BaseUrl = "https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:" + miotdevice;
-    return BaseUrl;
-}
-
-// ################ ENDE TESTBEREICH ####################
-
-
-
 const DeviceData = [];
 let AllDevicesRaw = [];
-
 let device = [];
-
 const States = [];
 let DpCount = 0;
+let GenericDpRefreshIntervalObj;
+
 log("Starting AllMyMi V." + SkriptVersion);
 
 Init();
@@ -70,7 +39,6 @@ const DefineDevice = [];
 // ***************************** Device Definitions *************************
 
 // ***************************** Airpurifiers ********************************
-
 
 DefineDevice[0] = { // Tested and working
     info: {},
@@ -105,7 +73,7 @@ DefineDevice[0] = { // Tested and working
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
-DefineDevice[20] = {  // untested - https://github.com/Pittini/iobroker-nodemihome/issues/28
+DefineDevice[20] = {  // tested and ok - https://github.com/Pittini/iobroker-nodemihome/issues/28
     info: {},
     model: "zhimi.airpurifier.mc1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mc1:1
     description: "Purifier 2S",
@@ -132,6 +100,32 @@ DefineDevice[20] = {  // untested - https://github.com/Pittini/iobroker-nodemiho
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
+DefineDevice[22] = {  // untested - https://github.com/Pittini/iobroker-nodemihome/issues/34
+    info: {},
+    model: "zhimi.airpurifier.m1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-m1:1
+    description: "Purifier 2",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) },
+        "mode": async function (obj, val) { await device[obj].setMode(val) },
+        "favorite_level": async function (obj, val) { await device[obj].setFavoriteLevel(val) },
+        "led": async function (obj, val) { await device[obj].setLed(val) },
+        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "mode", type: "string", role: "state", read: true, write: true, states: { "auto": "auto", "silent": "silent", "favorite": "favorite" } },
+        { name: "favorite_level", type: "number", role: "state", read: true, write: true, min: 1, max: 10 },
+        { name: "temp_dec", type: "number", role: "value.temperature", read: true, write: false, min: -40.0, max: 525.0, unit: "°C" },
+        { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
+        { name: "led", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "filter1_life", type: "number", role: "value", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "f1_hour", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "f1_hour_used", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
+};
 
 DefineDevice[8] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/6
     info: {},
@@ -312,7 +306,7 @@ DefineDevice[9] = { // Tested and working
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "angle": async function (obj, val) { await device[obj].setSwingAngle(val) },
         "angle_enable": async function (obj, val) { await device[obj].setSwing(val) },
-        "natural_level": async function (obj, val) { await device[obj].setSpeedLevel(val) },
+        "natural_level": async function (obj, val) { await device[obj].setSleepMode((val == 1) ? true : false) },
         "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
         "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
         "led_b": async function (obj, val) { await device[obj].setLcdBrightness(val) },
@@ -327,7 +321,7 @@ DefineDevice[9] = { // Tested and working
         { name: "buzzer", type: "boolean", role: "switch", read: true, write: true },
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true },
         { name: "led_b", type: "boolean", role: "switch", read: true, write: true },
-        { name: "speed_level", type: "number", read: true, write: true, min: 1, max: 4 },
+        { name: "speed_level", type: "number", read: true, write: true, min: 1, max: 100, unit: "%" },
         { name: "poweroff_time", type: "number", read: true, write: true, min: 0, max: 540, unit: "m" }]
 };
 
@@ -386,6 +380,35 @@ DefineDevice[19] = { // untested
         { name: "fan.alarm", type: "boolean", role: "switch", read: true, write: true },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "fan.off-delay-time", type: "number", role: "switch", read: true, write: true, min: 0, max: 480, unit: "m" }
+        ]
+};
+
+DefineDevice[23] = { // Tested and working
+    info: {},
+    model: "dmaker.fan.p18",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:dmaker-p18:1  
+    description: "Mi Smart Standing Fan 2",
+    setter: {
+        "fan.on": async function (obj, val) { await device[obj].setPower(val) },
+        "fan.mode": async function (obj, val) { await device[obj].setMode(val) },
+        "fan.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "fan.horizontal-swing": async function (obj, val) { await device[obj].setHorizontalSwing(val) },
+        "fan.horizontal-angle": async function (obj, val) { await device[obj].setHorizontalAngle(val) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setAlarm(val) },
+        "motor-controller.motor-control": async function (obj, val) { await device[obj].setMotorController(val) },
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
+        "off-delay-time.off-delay-time": async function (obj, val) { await device[obj].setOffDelayTime(val) }
+    },
+    common:
+        [{ name: "fan.on", type: "boolean", role: "switch", read: true, write: true },
+        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Straight Wind", 1: "Natural Wind" } },
+        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "Slow", 2: "Middle", 3: "High", 4: "Turbo" } },
+        { name: "fan.horizontal-swing", type: "boolean", role: "switch", read: true, write: true },
+        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 140, unit: "°", states: { 30: "30°", 60: "60°", 90: "90°", 120: "120°", 140: "140°" } },
+        { name: "fan.status", type: "number", role: "indicator", read: true, write: false, min: 1, max: 100 },
+        { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
+        { name: "motor-controller.motor-control", type: "number", role: "switch", read: false, write: true, min: 0, max: 2, states: { 0: "None", 1: "Left", 2: "Right" } },
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "off-delay-time.off-delay-time", type: "number", role: "switch", read: true, write: true, min: 0, max: 480, unit: "m" }
         ]
 };
 
@@ -484,7 +507,7 @@ DefineDevice[11] = { // untested
 DefineDevice[21] = { // untested
     info: {},
     model: "yeelink.light.ceiling10",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling10:1
-    description: "Yeelight Crystal Pedestal Light",
+    description: "Yeelight Meteorite Pedestal Light",
     setter: {
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "main_power": async function (obj, val) { await device[obj].setMainPower(val) },
@@ -507,7 +530,7 @@ DefineDevice[21] = { // untested
         { name: "moon_mode", type: "boolean", role: 'switch.mode.moon', read: true, write: true },
         { name: "bg_ct", type: "number", role: 'level.color.temperature', read: true, write: true, min: 2600, max: 6500, unit: "K" },
         { name: "ct", type: "number", role: 'level.color.temperature', read: true, write: true, min: 2600, max: 6500, unit: "K" },
-        { name: "bg_rgb", type: "string",role: 'level.color.rgb', read: true, write: true },
+        { name: "bg_rgb", type: "string", role: 'level.color.rgb', read: true, write: true },
         { name: "bg_hue", type: "number", role: 'level.color.hue', read: true, write: true, min: 0, max: 359 },
         { name: "bg_sat", type: "number", role: 'level.color.saturation', read: true, write: true, min: 1, max: 100 }]
 };
@@ -799,7 +822,7 @@ async function CreateDevices() {
         device[i].on('properties', (data) => {
             if (typeof data != "undefined" && data != {}) {
                 if (JSON.stringify(device[i].data) !== JSON.stringify(data)) {//Prüfen ob Datenänderung pro device
-                    //if (logging) log(data)
+                    //if (logging)                     log(data)
                     if (typeof device[i].data == "undefined") {
                         device[i].data = data;
                     };
@@ -808,17 +831,38 @@ async function CreateDevices() {
             } else {
                 log("Data was empty (undefined), aborting refresh", "warn");
             };
+
         });
     };
+
+    GenericDpRefreshIntervalObj = setInterval(function () { //
+        RefreshGenericDpsTicker();
+    }, refresh); //
+
 
     onStop(function () { //Bei Scriptende alle Devices löschen
         for (let x in device) {
             device[x].destroy();
         };
         unsubscribe('properties');
+        clearInterval(GenericDpRefreshIntervalObj);
     }, 10);
 }
 
+async function RefreshGenericDpsTicker() {
+    // log("Reaching RefreshGenericDpsTicker(" + DeviceIndex + ") " + device[DeviceIndex].id, "info");
+    let dummy = await mihome.miCloudProtocol.getDevices(null, options); //Gibt  Devices zurück und weist die Werte einem lokalen Array zu
+    for (let DeviceIndex in dummy) {
+        if (device[DeviceIndex].rssi != dummy[DeviceIndex].rssi) {
+            device[DeviceIndex].rssi = dummy[DeviceIndex].rssi;
+            setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "rssi", device[DeviceIndex].rssi, true);
+        };
+        if (device[DeviceIndex].isOnline != dummy[DeviceIndex].isOnline) {
+            device[DeviceIndex].isOnline = dummy[DeviceIndex].isOnline;
+            setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "isOnline", device[DeviceIndex].isOnline, true);
+        };
+    };
+}
 
 function RefreshDps(DeviceIndex, NewData) {
     // if (logging) log("Reaching RefreshDps at " + device[DeviceIndex].definition.description);
