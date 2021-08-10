@@ -853,13 +853,17 @@ async function RefreshGenericDpsTicker() {
     // log("Reaching RefreshGenericDpsTicker(" + DeviceIndex + ") " + device[DeviceIndex].id, "info");
     let dummy = await mihome.miCloudProtocol.getDevices(null, options); //Gibt  Devices zurück und weist die Werte einem lokalen Array zu
     for (let DeviceIndex in dummy) {
-        if (device[DeviceIndex].rssi != dummy[DeviceIndex].rssi) {
-            device[DeviceIndex].rssi = dummy[DeviceIndex].rssi;
-            setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "rssi", device[DeviceIndex].rssi, true);
+        if (typeof dummy[DeviceIndex].rssi != "undefined") {
+            if (device[DeviceIndex].rssi != dummy[DeviceIndex].rssi) {
+                device[DeviceIndex].rssi = dummy[DeviceIndex].rssi;
+                setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "rssi", device[DeviceIndex].rssi, true);
+            };
         };
-        if (device[DeviceIndex].isOnline != dummy[DeviceIndex].isOnline) {
-            device[DeviceIndex].isOnline = dummy[DeviceIndex].isOnline;
-            setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "isOnline", device[DeviceIndex].isOnline, true);
+        if (typeof dummy[DeviceIndex].isOnline != "undefined") {
+            if (device[DeviceIndex].isOnline != dummy[DeviceIndex].isOnline) {
+                device[DeviceIndex].isOnline = dummy[DeviceIndex].isOnline;
+                setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "isOnline", device[DeviceIndex].isOnline, true);
+            };
         };
     };
 }
