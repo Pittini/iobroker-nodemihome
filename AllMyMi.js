@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.24"; //vom 06.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.24"; //vom 11.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -809,6 +809,8 @@ async function CreateDevices() {
                 device[z].setter = DefineDevice[y].setter;
                 device[z].definition = DefineDevice[y];
                 device[z].firstrun = true;
+                device[z].rssi = 0;
+                device[z].isOnline = true;
                 log("Created device " + JSON.stringify(device[z]) + " now fetching data");
                 await device[z].init(); // connect to device and poll for properties
                 log("Init Device# " + z + " - device=" + JSON.stringify(device[z].model));
@@ -852,20 +854,22 @@ async function CreateDevices() {
 async function RefreshGenericDpsTicker() {
     // log("Reaching RefreshGenericDpsTicker(" + DeviceIndex + ") " + device[DeviceIndex].id, "info");
     let dummy = await mihome.miCloudProtocol.getDevices(null, options); //Gibt  Devices zurück und weist die Werte einem lokalen Array zu
+    if (typeof dummy != "object") return false;
     for (let DeviceIndex in dummy) {
         if (typeof dummy[DeviceIndex].rssi != "undefined") {
             if (device[DeviceIndex].rssi != dummy[DeviceIndex].rssi) {
                 device[DeviceIndex].rssi = dummy[DeviceIndex].rssi;
-                setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "rssi", device[DeviceIndex].rssi, true);
+                setStateAsync(praefix0 + "." + device[DeviceIndex].id + ".info." + "rssi", device[DeviceIndex].rssi, true);
             };
         };
         if (typeof dummy[DeviceIndex].isOnline != "undefined") {
             if (device[DeviceIndex].isOnline != dummy[DeviceIndex].isOnline) {
                 device[DeviceIndex].isOnline = dummy[DeviceIndex].isOnline;
-                setState(praefix0 + "." + device[DeviceIndex].id + ".info." + "isOnline", device[DeviceIndex].isOnline, true);
+                setStateAsync(praefix0 + "." + device[DeviceIndex].id + ".info." + "isOnline", device[DeviceIndex].isOnline, true);
             };
         };
     };
+    return true;
 }
 
 function RefreshDps(DeviceIndex, NewData) {
