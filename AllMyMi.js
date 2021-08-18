@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.24"; //vom 12.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.25"; //vom 18.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -29,12 +29,12 @@ let device = [];
 const States = [];
 let DpCount = 0;
 let GenericDpRefreshIntervalObj;
+const DefineDevice = [];
 
 log("Starting AllMyMi V." + SkriptVersion);
 
 Init();
 
-const DefineDevice = [];
 
 // ***************************** Device Definitions *************************
 
@@ -302,6 +302,33 @@ DefineDevice[9] = { // Tested and working
     info: {},
     model: "zhimi.fan.za4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za4:1  
     description: "Mi Fan 2S",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) },
+        "angle": async function (obj, val) { await device[obj].setSwingAngle(val) },
+        "angle_enable": async function (obj, val) { await device[obj].setSwing(val) },
+        "natural_level": async function (obj, val) { await device[obj].setSleepMode((val == 1) ? true : false) },
+        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
+        "led_b": async function (obj, val) { await device[obj].setLcdBrightness(val) },
+        "speed_level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "poweroff_time": async function (obj, val) { await device[obj].setTimer(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "angle", type: "number", read: true, write: true, min: 1, max: 120 },
+        { name: "angle_enable", type: "boolean", role: "switch", read: true, write: true },
+        { name: "natural_level", type: "number", read: true, write: true, min: 0, max: 1, states: { 0: "Straight Wind", 1: "Natural Wind" } },
+        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true },
+        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true },
+        { name: "led_b", type: "boolean", role: "switch", read: true, write: true },
+        { name: "speed_level", type: "number", read: true, write: true, min: 1, max: 100, unit: "%" },
+        { name: "poweroff_time", type: "number", read: true, write: true, min: 0, max: 540, unit: "m" }]
+};
+
+DefineDevice[24] = { // untested
+    info: {},
+    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za4:1  
+    description: "Smartmi Fan 3",
     setter: {
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "angle": async function (obj, val) { await device[obj].setSwingAngle(val) },
@@ -896,6 +923,13 @@ function RefreshDps(DeviceIndex, NewData) {
                             switch (device[DeviceIndex].definition.common[y].name) {
                                 case 'temp_dec': //Umwandlung von 10tel Grad auf Grad beim Dp schreiben. data muß unverändert bleiben da im Trigger mit origdaten abgeglichen wird
                                     setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), parseInt(device[DeviceIndex].data[x]) / 10, true);
+                                    break;
+                                case 'bright':
+                                case 'ct':
+                                case 'hue':
+                                case 'rgb':
+                                case 'color_mode':
+                                    setState(praefix0 + "." + device[DeviceIndex].id + "." + CorrectChannelId(x), parseInt(device[DeviceIndex].data[x]), true);
                                     break;
                                 default: //Wenn kein Treffer jetzt Prüfung auf bestimmte Daten
                                     switch (device[DeviceIndex].data[x]) {

@@ -75,6 +75,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 18.08.21 (0.2.25)
+* Add: Integration SmartMi Fan 3 > zhimi.fan.za5 https://github.com/Pittini/iobroker-nodemihome/issues/33
 #### 06.08.21 (0.2.24)
 * Fix: Rssi und isOnline werden nun korrekt refresht
 #### 24.06.21 (0.2.23)
