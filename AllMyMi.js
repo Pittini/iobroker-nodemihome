@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.25"; //vom 18.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.25"; //vom 22.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -327,29 +327,33 @@ DefineDevice[9] = { // Tested and working
 
 DefineDevice[24] = { // untested
     info: {},
-    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za4:1  
+    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1  
     description: "Smartmi Fan 3",
     setter: {
-        "power": async function (obj, val) { await device[obj].setPower(val) },
-        "angle": async function (obj, val) { await device[obj].setSwingAngle(val) },
-        "angle_enable": async function (obj, val) { await device[obj].setSwing(val) },
-        "natural_level": async function (obj, val) { await device[obj].setSleepMode((val == 1) ? true : false) },
-        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
-        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
-        "led_b": async function (obj, val) { await device[obj].setLcdBrightness(val) },
-        "speed_level": async function (obj, val) { await device[obj].setFanLevel(val) },
-        "poweroff_time": async function (obj, val) { await device[obj].setTimer(val) }
+        "fan.on": async function (obj, val) { await device[obj].setPower(val) },
+        "fan.mode": async function (obj, val) { await device[obj].setMode(val) },
+        "fan.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "fan.horizontal-swing": async function (obj, val) { await device[obj].setHorizontalSwing(val) },
+        "fan.horizontal-angle": async function (obj, val) { await device[obj].setHorizontalAngle(val) },
+        "indicator-light.on": async function (obj, val) { await device[obj].setIndicatorLight(val) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setAlarm(val) },
+        "motor-controller.motor-control": async function (obj, val) { await device[obj].setMotorController(val) },
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
+        "off-delay-time.off-delay-time": async function (obj, val) { await device[obj].setOffDelayTime(val) }
     },
     common:
-        [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
-        { name: "angle", type: "number", read: true, write: true, min: 1, max: 120 },
-        { name: "angle_enable", type: "boolean", role: "switch", read: true, write: true },
-        { name: "natural_level", type: "number", read: true, write: true, min: 0, max: 1, states: { 0: "Straight Wind", 1: "Natural Wind" } },
-        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true },
-        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true },
-        { name: "led_b", type: "boolean", role: "switch", read: true, write: true },
-        { name: "speed_level", type: "number", read: true, write: true, min: 1, max: 100, unit: "%" },
-        { name: "poweroff_time", type: "number", read: true, write: true, min: 0, max: 540, unit: "m" }]
+        [{ name: "fan.on", type: "boolean", role: "switch", read: true, write: true },
+        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Straight Wind", 1: "Natural Wind" } },
+        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "Slow", 2: "Middle", 3: "High", 4: "Turbo" } },
+        { name: "fan.horizontal-swing", type: "boolean", role: "switch", read: true, write: true },
+        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 140, unit: "°", states: { 30: "30°", 60: "60°", 90: "90°", 120: "120°", 140: "140°" } },
+        { name: "fan.status", type: "number", role: "indicator", read: true, write: false, min: 1, max: 100 },
+        { name: "indicator-light.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
+        { name: "motor-controller.motor-control", type: "number", role: "switch", read: false, write: true, min: 0, max: 2, states: { 0: "None", 1: "Left", 2: "Right" } },
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "off-delay-time.off-delay-time", type: "number", role: "switch", read: true, write: true, min: 0, max: 480, unit: "m" }
+        ]
 };
 
 DefineDevice[17] = { // Tested and working

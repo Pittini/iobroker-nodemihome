@@ -15,6 +15,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Mi Smart Standing Fan Pro       - dmaker.fan.p15          - (voll/voll)
 * Mi Smart Standing Fan 1C        - dmaker.fan.1c           - (voll/voll)
 * Mi Smart Standing Fan 2         - dmaker.fan.p18          - (voll/voll)
+* SmartMi Fan 3                   - zhima.fan.za5           - (voll/voll)
 
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
