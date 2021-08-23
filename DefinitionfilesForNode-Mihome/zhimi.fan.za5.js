@@ -11,7 +11,16 @@ module.exports = class extends Device {
  
     this._miotSpecType = 'urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1';
     this._propertiesToMonitor = [
-      'fan:on'
+      'fan:on',
+      'fan:mode',
+      'fan:fan-level',
+      'fan:horizontal-swing',
+      'fan:horizontal-angle',
+       'fan:off-delay',
+       'fan:anion',
+      'indicator-light:on',
+      'alarm:alarm',
+      'physical-controls-locked:physical-controls-locked'
       ];
   }
  
@@ -39,6 +48,10 @@ module.exports = class extends Device {
     return this.miotSetProperty('fan:horizontal-angle', v);
   }
 
+  setAnion(v) {
+    return this.miotSetProperty('fan:anion', v);
+  }
+
   setIndicatorLight(v) {
     return this.miotSetProperty('indicator-light:on', v);
   }
@@ -47,16 +60,13 @@ module.exports = class extends Device {
     return this.miotSetProperty('alarm:alarm', v);
   }
 
-  setMotorController(v) {
-    return this.miotSetProperty('motor-controller:motor-control', v);
-  }
 
   setChildLock(v) {
     return this.miotSetProperty('physical-controls-locked:physical-controls-locked', v);
   }
 
-  setOffDelayTime(v) {
-    return this.miotSetProperty('off-delay-time:off-delay-time', v);
+  setOffDelay(v) {
+    return this.miotSetProperty('fan:off-delay', v);
   }
 
 };
