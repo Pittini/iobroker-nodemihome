@@ -327,7 +327,7 @@ DefineDevice[9] = { // Tested and working
 
 DefineDevice[24] = { // untested
     info: {},
-    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1  
+    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1
     description: "Smartmi Fan 3",
     setter: {
         "fan.on": async function (obj, val) { await device[obj].setPower(val) },
@@ -336,27 +336,25 @@ DefineDevice[24] = { // untested
         "fan.horizontal-swing": async function (obj, val) { await device[obj].setHorizontalSwing(val) },
         "fan.horizontal-angle": async function (obj, val) { await device[obj].setHorizontalAngle(val) },
         "fan.anion": async function (obj, val) { await device[obj].setAnion(val) },
-        "indicator-light.on": async function (obj, val) { await device[obj].setIndicatorLight(val) },
+        "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setAlarm(val) },
-        "motor-controller.motor-control": async function (obj, val) { await device[obj].setMotorController(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
         "fan.off-delay": async function (obj, val) { await device[obj].setOffDelayTime(val) }
     },
     common:
         [{ name: "fan.on", type: "boolean", role: "switch", read: true, write: true },
-        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0:"Natural Wind" , 1: "Straight Wind" } },
-        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "Slow", 2: "Middle", 3: "High", 4: "Turbo" } },
+        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Natural Wind", 1: "Straight Wind" } },
+        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "1", 2: "2", 3: "3", 4: "4" } },
         { name: "fan.horizontal-swing", type: "boolean", role: "switch", read: true, write: true },
-        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 140, unit: "°", states: { 30: "30°", 60: "60°", 90: "90°", 120: "120°", 140: "140°" } },
+        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 120, unit: "°", states: { 30: "30°", 60: "60°", 90: "90°", 120: "120°" } },
         { name: "fan.anion", type: "boolean", role: "switch", read: true, write: true },
-        { name: "indicator-light.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "indicator-light.brightness", type: "number", read: true, write: true, min: 0, max: 100, unit: "%" },
         { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
-        { name: "motor-controller.motor-control", type: "number", role: "switch", read: false, write: true, min: 0, max: 2, states: { 0: "None", 1: "Left", 2: "Right" } },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "fan.off-delay", type: "number", role: "switch", read: true, write: true, min: 0, max: 36000, unit: "s" }
-        ]
+        { name: "fan.off-delay", type: "number", role: "switch", read: true, write: true, min: 0, max: 36000, unit: "s" },
+        { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -30.0, max: 100.0, unit: "°C" },
+        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" }]
 };
-
 DefineDevice[17] = { // Tested and working
     info: {},
     model: "dmaker.fan.p15",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:dmaker-p15:1  
