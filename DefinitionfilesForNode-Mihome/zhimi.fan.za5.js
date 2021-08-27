@@ -18,7 +18,7 @@ module.exports = class extends Device {
       'fan:horizontal-angle',
       'fan:off-delay',
       'fan:anion',
-      'indicator-light:on',
+      'indicator-light:brightness',
       'alarm:alarm',
       'physical-controls-locked:physical-controls-locked',
       'environment:relative-humidity',
