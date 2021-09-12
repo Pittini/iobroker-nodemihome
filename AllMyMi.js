@@ -325,9 +325,9 @@ DefineDevice[9] = { // Tested and working
         { name: "poweroff_time", type: "number", read: true, write: true, min: 0, max: 540, unit: "m" }]
 };
 
-DefineDevice[24] = { // untested
+DefineDevice[24] = { // Tested and working
     info: {},
-    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1
+    model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1  
     description: "Smartmi Fan 3",
     setter: {
         "fan.on": async function (obj, val) { await device[obj].setPower(val) },
@@ -336,26 +336,33 @@ DefineDevice[24] = { // untested
         "fan.horizontal-swing": async function (obj, val) { await device[obj].setHorizontalSwing(val) },
         "fan.horizontal-angle": async function (obj, val) { await device[obj].setHorizontalAngle(val) },
         "fan.anion": async function (obj, val) { await device[obj].setAnion(val) },
+        "custom-service.speed-level": async function (obj, val) { await device[obj].setSpeedLevel(val) },
         "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setAlarm(val) },
+        "custom-service.swing-step-move": async function (obj, val) { if(val != "") await device[obj].setSwingStepMove(val)},
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
         "fan.off-delay": async function (obj, val) { await device[obj].setOffDelayTime(val) }
     },
     common:
         [{ name: "fan.on", type: "boolean", role: "switch", read: true, write: true },
-        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Natural Wind", 1: "Straight Wind" } },
-        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "1", 2: "2", 3: "3", 4: "4" } },
+        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Natural Wind" , 1: "Straight Wind" } },
+        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "1", 2: "2", 3: "3", 4: "4"} },
         { name: "fan.horizontal-swing", type: "boolean", role: "switch", read: true, write: true },
-        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 120, unit: "°", states: { 30: "30°", 60: "60°", 90: "90°", 120: "120°" } },
+        { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 120, unit: "°", states: { 30: "30", 60: "60", 90: "90", 120: "120" } },
         { name: "fan.anion", type: "boolean", role: "switch", read: true, write: true },
-        { name: "indicator-light.brightness", type: "number", read: true, write: true, min: 0, max: 100, unit: "%" },
+        { name: "custom-service.speed-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 100},
+        { name: "custom-service.battery-state",  type: "boolean", role: "switch", read: true, write: false, states: { true: "used", false: "unused" } },
+        { name: "custom-service.speed-now",  type: "number", role: "switch", read: true, write: false, min: 0, max: 3000, unit: "RPM" },
+        { name: "custom-service.ac-state",  type: "boolean", role: "switch", read: true, write: false, states: { true: "plugged", false: "unplugged" } },
+        { name: "indicator-light.brightness", type: "number", read: true, write: true, min: 0, max: 100, unit:"%"},
         { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
-        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "custom-service.swing-step-move", type: "string", role: "switch", read: false, write: true, states: {"": "None", "left": "Left", "right": "Right" }},
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true},
         { name: "fan.off-delay", type: "number", role: "switch", read: true, write: true, min: 0, max: 36000, unit: "s" },
         { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -30.0, max: 100.0, unit: "°C" },
-        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" }]
-};
-DefineDevice[17] = { // Tested and working
+        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" }        
+        ]
+};DefineDevice[17] = { // Tested and working
     info: {},
     model: "dmaker.fan.p15",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:dmaker-p15:1  
     description: "Mi Smart Standing Fan Pro",
