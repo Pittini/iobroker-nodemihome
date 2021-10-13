@@ -10,17 +10,10 @@ module.exports = class extends Device {
   constructor(opts) {
     super(opts);
 
+    this._miotSpecType = 'urn:miot-spec-v2:device:humidifier:0000A00E:zhimi-ca4:1';
     this._propertiesToMonitor = [
-      'limit_hum',
-      'power',
-      'humidity',
-      'temperature',
-      'buzzer',
-      'led',
-      'depth',
-      'dry',
-      'child_lock',
-      'mode',
+    
+      'humidifier:on'
     ];
   }
 
@@ -81,40 +74,8 @@ module.exports = class extends Device {
   }
 
   setPower(v) {
-    return this.miioCall('set_power', [v ? 'on' : 'off']);
+    return this.miotSetProperty('humidifier:on', v);
   }
 
-  setBuzzer(v) {
-    return this.miioCall('set_buzzer', [v]);
-  }
-
-  setFanLevel(v) {
-    return this.miioCall('set_mode', [v]);
-  }
-
-  setTargetHumidity(v) {
-    if ([30, 40, 50, 60, 70, 80].includes(v)) {
-      return this.miioCall('set_limit_hum', [v]);
-    }
-    return Promise.reject(new Error(`Invalid target humidity: ${v}`));
-  }
-
-  setLedBrightness(v) {
-    return this.miioCall('set_led_b', [String(v)]);
-  }
-
-  setChildLock(v) {
-    return this.miioCall('set_child_lock', [v ? 'on' : 'off']);
-  }
-
-  setMode(v) {
-    if (v === 'dry') {
-      return this.miioCall('set_dry', ['on']);
-    }
-    if (v === 'humidify') {
-      return this.miioCall('set_dry', ['off']);
-    }
-    return Promise.reject(new Error(`Invalid mode: ${v}`));
-  }
 
 };

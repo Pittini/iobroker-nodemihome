@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.25"; //vom 23.08.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.25"; //vom 13.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -632,7 +632,7 @@ DefineDevice[12] = { // untested
     model: "zhimi.humidifier.ca4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:humidifier:0000A00E:zhimi-ca4:1
     description: "Smartmi Evaporative Humidifier",
     setter: {
-        "power": async function (obj, val) { await device[obj].setPower(val ? 'on' : 'off') },
+        "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
         "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
         "mode": async function (obj, val) { await device[obj].setFanLevel(val) },
         "limit_hum": async function (obj, val) { await device[obj].setTargetHumidity(val) },
@@ -641,7 +641,7 @@ DefineDevice[12] = { // untested
         "dry": async function (obj, val) { await device[obj].setMode(val ? 'dry' : 'humidify') }
     },
     common:
-        [{ name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "depth", type: "number", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "limit_hum", type: "number", read: true, write: true, min: 0, max: 100, unit: "%", states: { 30: "30%", 40: "40%", 50: "50%", 60: "60%", 70: "70%", 80: "80%" } },
         { name: "led", type: "number", read: true, write: true, min: 0, max: 2, states: { 0: "bright", 1: "dim", 2: "off" } },
