@@ -24,7 +24,7 @@ module.exports = class extends Device {
       'environment:relative-humidity',
       'alarm:alarm',
       'screen:brightness',
-      'physical-controls-locked.physical-controls-locked',
+      'physical-controls-locked:physical-controls-locked',
       'other:actual-speed',
       'other:power-time'
     ];
