@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.25"; //vom 13.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.25"; //vom 14.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -633,24 +633,29 @@ DefineDevice[12] = { // untested
     description: "Smartmi Evaporative Humidifier",
     setter: {
         "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
-        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val ? 'on' : 'off') },
-        "mode": async function (obj, val) { await device[obj].setFanLevel(val) },
-        "limit_hum": async function (obj, val) { await device[obj].setTargetHumidity(val) },
-        "led": async function (obj, val) { await device[obj].setLedBrightness(val) },
-        "child_lock": async function (obj, val) { await device[obj].setChildLock(val ? 'on' : 'off') },
-        "dry": async function (obj, val) { await device[obj].setMode(val ? 'dry' : 'humidify') }
+        "humidifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "humidifier.target-humidity":async function (obj, val) { await device[obj].setTargetHumidity(val) },
+        "humidifier.dry":async function (obj, val) { await device[obj].setMode(val) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "screen.brightness": async function (obj, val) { await device[obj].setBright(val) },
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
     },
     common:
         [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "depth", type: "number", read: true, write: false, min: 0, max: 100, unit: "%" },
-        { name: "limit_hum", type: "number", read: true, write: true, min: 0, max: 100, unit: "%", states: { 30: "30%", 40: "40%", 50: "50%", 60: "60%", 70: "70%", 80: "80%" } },
-        { name: "led", type: "number", read: true, write: true, min: 0, max: 2, states: { 0: "bright", 1: "dim", 2: "off" } },
-        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "temperature", type: "number", role: "value.temperature", read: true, write: false, min: -40, max: 125, unit: "°C" },
-        { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
-        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "dry", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "mode", type: "string", read: true, write: true, states: { "auto": "auto", "silent": "silent", "medium": "medium", "high": "high" } }]
+        { name: "humidifier.fault", type: "number", read: true, write: false, min: 0, max: 15 },
+        { name: "humidifier.fan-level", type: "number", read: true, write: true, min: 0, max: 3, states: { 0: "auto", 1: "level1", 2: "level2", 3: "level3" } },
+        { name: "humidifier.target-humidity", type: "number", read: true, write: true, min: 30, max: 80 , unit: "%"},
+        { name: "humidifier.water-level", type: "number", read: true, write: false, min: 0, max: 128 },
+        { name: "humidifier.speed-level", type: "number", read: true, write: false, min: 200, max: 2000 },
+        { name: "humidifier.dry", type: "boolean", read: true, write: true, min: false, max: true },
+        { name: "humidifier.use-time", type: "number", read: true, write: false, min: 0, max: 2147483600 },
+        { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -40, max: 125, unit: "°C" },
+        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "alarm.alarm", type: "boolean", role: "switch",read: true, write: true, min: false, max: true },
+        { name: "screen.brightness", type: "number", role: "value.brightnesss", read: true, write: true, min: 0, max: 2, states: { 0: "Dark", 1: "Glimmer", 2: "Brightest" } },
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "other.actual-speed", type: "number",  read: true, write: false, min: 0, max: 2000 },
+        { name: "other.power-time", type: "number",  read: true, write: false, min: 0, max: 4294967295,unit: "Seconds" }]
 };
 
 // ***************************** Divers *********************************
