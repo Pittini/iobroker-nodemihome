@@ -20,7 +20,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
 * Smartmi Evaporative Humidifier  - deerma.humidifier.jsq   - (ready to test)
-* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (ready to test)
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (voll/ voll)
 
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
@@ -41,6 +41,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll)
 * Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling10 - (voll/voll)
 
+### Beamer
+* Mijia Laser TV                  - fengmi.projector.fm15   - (in progress)
 
 ## Installation:
   ###  Vorraussetzungen: 
@@ -76,6 +78,10 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 22.10.21 (0.2.27)
+* Add: Integration Mijia Laser TV > fengmi.projector.fm15 https://github.com/Pittini/iobroker-nodemihome/issues/47
+#### 18.10.21 (0.2.26)
+* Fix: Test und fix für zhimi.humidifier.ca4 https://github.com/Pittini/iobroker-nodemihome/issues/46
 #### 18.08.21 (0.2.25)
 * Add: Integration SmartMi Fan 3 > zhimi.fan.za5 https://github.com/Pittini/iobroker-nodemihome/issues/33
 #### 06.08.21 (0.2.24)

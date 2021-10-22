@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.25"; //vom 14.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.27"; //vom 22.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -73,7 +73,7 @@ DefineDevice[0] = { // Tested and working
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
-DefineDevice[20] = {  // tested and ok - https://github.com/Pittini/iobroker-nodemihome/issues/28
+DefineDevice[20] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/28
     info: {},
     model: "zhimi.airpurifier.mc1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mc1:1
     description: "Purifier 2S",
@@ -100,7 +100,7 @@ DefineDevice[20] = {  // tested and ok - https://github.com/Pittini/iobroker-nod
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
-DefineDevice[22] = {  // untested - https://github.com/Pittini/iobroker-nodemihome/issues/34
+DefineDevice[22] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/34
     info: {},
     model: "zhimi.airpurifier.m1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-m1:1
     description: "Purifier 2",
@@ -325,7 +325,7 @@ DefineDevice[9] = { // Tested and working
         { name: "poweroff_time", type: "number", read: true, write: true, min: 0, max: 540, unit: "m" }]
 };
 
-DefineDevice[24] = { // untested
+DefineDevice[24] = { // Tested and working
     info: {},
     model: "zhimi.fan.za5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-za5:1
     description: "Smartmi Fan 3",
@@ -386,7 +386,7 @@ DefineDevice[17] = { // Tested and working
         ]
 };
 
-DefineDevice[19] = { // untested
+DefineDevice[19] = { // Tested and working
     info: {},
     model: "dmaker.fan.1c",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:dmaker-1c:1  
     description: "Mi Smart Standing Fan 1C",
@@ -627,7 +627,7 @@ DefineDevice[4] = { // untested
         { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
-DefineDevice[12] = { // untested
+DefineDevice[12] = { // Tested and working
     info: {},
     model: "zhimi.humidifier.ca4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:humidifier:0000A00E:zhimi-ca4:1
     description: "Smartmi Evaporative Humidifier",
@@ -659,10 +659,16 @@ DefineDevice[12] = { // untested
 };
 
 // ***************************** Divers *********************************
-// TODO https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:coffee-machine:0000A049:scishare-s1102:1
-// TODO https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:camera:0000A01C:mijia-v1:1
-// TODO https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:plant-monitor:0000A030:hhcc-v1:1
-// TODO https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:heater:0000A01A:zhimi-mc2:1
+DefineDevice[25] = { // In arbeit - unvollständig
+    info: {},
+    model: "fengmi.projector.fm15",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:projector:0000A02C:fengmi-fm15:1
+    description: "Mijia Laser TV",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) }
+    },
+    common:
+        [{ name: 'power', role: 'switch', write: true, read: true, type: 'boolean' }]
+};
 
 DefineDevice[7] = { // In arbeit - unvollständig
     info: {},
@@ -671,7 +677,7 @@ DefineDevice[7] = { // In arbeit - unvollständig
     setter: {
         "power": async function (obj, val) { await device[obj].setPower(val) },
         "doorbell_push": async function (obj, val) { await device[obj].setBrightness(val) },
-        "toggle_light": async function (obj, val) { await device[obj].setLightPower(val) },
+        "toggle_light": async function (obj, val) { await device[obj].setLightPower(val) }
     },
     common:
         [{ name: 'illumination', role: 'value.lux', write: false, read: true, type: 'number', unit: 'lux' },

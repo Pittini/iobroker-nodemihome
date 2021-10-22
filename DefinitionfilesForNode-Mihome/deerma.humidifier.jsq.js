@@ -19,7 +19,7 @@ module.exports = class extends Device {
       'depth',
       'dry',
       'child_lock',
-      'mode',
+      'mode'
     ];
   }
 
