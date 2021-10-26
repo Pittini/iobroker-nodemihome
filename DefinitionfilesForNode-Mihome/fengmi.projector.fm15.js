@@ -9,14 +9,15 @@ module.exports = class extends Device {
   constructor(opts) {
     super(opts);
 
+    this._miotSpecType = 'urn:miot-spec-v2:device:projector:0000A02C:fengmi-fm15:1';
     this._propertiesToMonitor = [
-      'power'
+      'speaker:volume'
     ];
   }
 
 
-  setPower(v) {
-    return this.miioCall('set_power', [v ? 'on' : 'off']);
+  setVolume(v) {
+    return this.miotSetProperty('speaker:volume', v);
   }
 
 

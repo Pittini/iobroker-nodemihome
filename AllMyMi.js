@@ -664,10 +664,10 @@ DefineDevice[25] = { // In arbeit - unvollständig
     model: "fengmi.projector.fm15",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:projector:0000A02C:fengmi-fm15:1
     description: "Mijia Laser TV",
     setter: {
-        "power": async function (obj, val) { await device[obj].setPower(val) }
+        "speaker.volume": async function (obj, val) { await device[obj].setVolume(val) }
     },
     common:
-        [{ name: 'power', role: 'switch', write: true, read: true, type: 'boolean' }]
+        [{ name: 'speaker.volume', role: 'switch', write: true, read: true, type: 'number', min: 0, max: 50, }]
 };
 
 DefineDevice[7] = { // In arbeit - unvollständig
