@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.27"; //vom 22.10.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.27"; //vom 2.12.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -657,18 +657,20 @@ DefineDevice[12] = { // Tested and working
         { name: "other.actual-speed", type: "number",  read: true, write: false, min: 0, max: 2000 },
         { name: "other.power-time", type: "number",  read: true, write: false, min: 0, max: 4294967295,unit: "Seconds" }]
 };
-
-// ***************************** Divers *********************************
-DefineDevice[25] = { // In arbeit - unvollständig
+DefineDevice[25] = { // Untestet
     info: {},
-    model: "fengmi.projector.fm15",//    https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:projector:0000A02C:fengmi-fm15:1
-    description: "Mijia Laser TV",
+    model: "deerma.humidifier.jsq4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:humidifier:0000A00E:deerma-jsq4:1
+    description: "XIAOMI Mijia CJSJSQ01DY Pure Evaporation",
     setter: {
-        "speaker.volume": async function (obj, val) { await device[obj].setVolume(val) }
+        "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
+        "power": async function (obj, val) { await device[obj].setPower(val) }
     },
     common:
-        [{ name: 'speaker.volume', role: 'switch', write: true, read: true, type: 'number', min: 0, max: 50, }]
+        [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
+
+// ***************************** Divers *********************************
 
 DefineDevice[7] = { // In arbeit - unvollständig
     info: {},

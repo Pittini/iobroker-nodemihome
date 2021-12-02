@@ -55,7 +55,7 @@ module.exports = class extends Device {
   }
 
   setChildLock(v) {
-    return this.miotSetProperty('physical-controls-locked.physical-controls-locked', v);
+    return this.miotSetProperty('physical-controls-locked:physical-controls-locked', v);
   }
 
 };
