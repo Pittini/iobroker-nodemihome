@@ -634,8 +634,8 @@ DefineDevice[12] = { // Tested and working
     setter: {
         "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
         "humidifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
-        "humidifier.target-humidity":async function (obj, val) { await device[obj].setTargetHumidity(val) },
-        "humidifier.dry":async function (obj, val) { await device[obj].setMode(val) },
+        "humidifier.target-humidity": async function (obj, val) { await device[obj].setTargetHumidity(val) },
+        "humidifier.dry": async function (obj, val) { await device[obj].setMode(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
         "screen.brightness": async function (obj, val) { await device[obj].setBright(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
@@ -644,18 +644,18 @@ DefineDevice[12] = { // Tested and working
         [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "humidifier.fault", type: "number", read: true, write: false, min: 0, max: 15 },
         { name: "humidifier.fan-level", type: "number", read: true, write: true, min: 0, max: 3, states: { 0: "auto", 1: "level1", 2: "level2", 3: "level3" } },
-        { name: "humidifier.target-humidity", type: "number", read: true, write: true, min: 30, max: 80 , unit: "%"},
+        { name: "humidifier.target-humidity", type: "number", read: true, write: true, min: 30, max: 80, unit: "%" },
         { name: "humidifier.water-level", type: "number", read: true, write: false, min: 0, max: 128 },
         { name: "humidifier.speed-level", type: "number", read: true, write: false, min: 200, max: 2000 },
         { name: "humidifier.dry", type: "boolean", read: true, write: true, min: false, max: true },
         { name: "humidifier.use-time", type: "number", read: true, write: false, min: 0, max: 2147483600 },
         { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -40, max: 125, unit: "°C" },
         { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
-        { name: "alarm.alarm", type: "boolean", role: "switch",read: true, write: true, min: false, max: true },
+        { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "screen.brightness", type: "number", role: "value.brightnesss", read: true, write: true, min: 0, max: 2, states: { 0: "Dark", 1: "Glimmer", 2: "Brightest" } },
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "other.actual-speed", type: "number",  read: true, write: false, min: 0, max: 2000 },
-        { name: "other.power-time", type: "number",  read: true, write: false, min: 0, max: 4294967295,unit: "Seconds" }]
+        { name: "other.actual-speed", type: "number", read: true, write: false, min: 0, max: 2000 },
+        { name: "other.power-time", type: "number", read: true, write: false, min: 0, max: 4294967295, unit: "Seconds" }]
 };
 DefineDevice[25] = { // Untestet
     info: {},
@@ -663,12 +663,24 @@ DefineDevice[25] = { // Untestet
     description: "XIAOMI Mijia CJSJSQ01DY Pure Evaporation",
     setter: {
         "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
-        "power": async function (obj, val) { await device[obj].setPower(val) }
+        "humidifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
+        "humidifier.target-humidity": async function (obj, val) { await device[obj].setTargetHumidity(val) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "indicator-light.on": async function (obj, val) { await device[obj].setBright(val) }
     },
     common:
         [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
-        { name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
+        { name: "humidifier.fault", type: "number", read: true, write: false, min: 0, max: 2, states: { 0: "No faults", 1: "Insufficient Water", 2: "Water Separation" } },
+        { name: "humidifier.fan-level", type: "number", read: true, write: true, min: 0, max: 3, states: { 1: "Level1", 2: "Level2", 3: "Humidity" } },
+        { name: "humidifier.target-humidity", type: "number", read: true, write: true, min: 40, max: 80, unit: "%" },
+        { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -30, max: 100, unit: "°C" },
+        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "indicator-light.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "custom.water-shortage-fault", type: "boolean", role: "switch", read: true, write: false, min: false, max: true },
+        { name: "custom.the-tank-filed", type: "boolean", role: "switch", read: true, write: false, min: false, max: true }]
 };
+
 
 // ***************************** Divers *********************************
 
