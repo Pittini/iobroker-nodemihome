@@ -20,7 +20,8 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 ### Humidifiers
 * Smartmi Evaporative Humidifier  - zhimi.humidifier.cb1    - (voll/voll)
 * Smartmi Evaporative Humidifier  - deerma.humidifier.jsq   - (ready to test)
-* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (ready to test)
+* Smartmi Evaporative Humidifier  - zhimi.humidifier.ca4    - (voll/ voll)
+* XIAOMI Mijia Pure Evaporation   - deerma.humidifier.jsq4   - (voll/ voll)
 
 ### Purifiers
 * Xiaomi Air Purifier 3H          - zhimi.airpurifier.mb3   - (voll/voll)
@@ -40,6 +41,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
 * Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll)
 * Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling10 - (voll/voll)
+
 
 
 ## Installation:
@@ -76,6 +78,15 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 04.12.21 (0.2.28)
+* Del: Integration Mijia Laser TV > fengmi.projector.fm15 canceled/removed
+* Add: Testintegration XIAOMI Mijia CJSJSQ01DY Pure Evaporation > deerma.humidifier.jsq4 https://github.com/Pittini/iobroker-nodemihome/issues/50
+* Fix: zhimi.humidifier.ca4 ControlLock konnte gelesen aber nicht gesetzt werden. Typo in Def. Datei behoben.
+* Add: Neue Einstellungsvariable skipRssiRefresh integriert um Netzlast zu verringern wenn rssi und isOnline nicht benötigt wird. 
+#### 22.10.21 (0.2.27)
+* Add: Integration Mijia Laser TV > fengmi.projector.fm15 https://github.com/Pittini/iobroker-nodemihome/issues/47
+#### 18.10.21 (0.2.26)
+* Fix: Test und fix für zhimi.humidifier.ca4 https://github.com/Pittini/iobroker-nodemihome/issues/46
 #### 18.08.21 (0.2.25)
 * Add: Integration SmartMi Fan 3 > zhimi.fan.za5 https://github.com/Pittini/iobroker-nodemihome/issues/33
 #### 06.08.21 (0.2.24)
