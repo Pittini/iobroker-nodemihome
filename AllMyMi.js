@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.27"; //vom 2.12.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.28"; //vom 4.12.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -7,6 +7,7 @@ const username = '';
 const password = '';
 const options = { country: 'de' }; // 'ru', 'us', 'tw', 'sg', 'cn', 'de' (Default: 'cn');
 const refresh = 10000; // Alle 10sek neue Daten
+const SkipRssiRefresh = true; //Bei true wird rssi und isOnline nicht mehr aktualisiert was zu verminderter Netzlast führt.
 
 const praefix0 = "javascript.0.MiHomeAll"; //Root für Skriptdatenpunkte
 
@@ -23,7 +24,7 @@ const logging = false; //Logging aktivieren/deaktivieren
 
 
 */
-const DeviceData = [];
+// const DeviceData = [];
 let AllDevicesRaw = [];
 let device = [];
 const States = [];
@@ -614,12 +615,14 @@ DefineDevice[4] = { // untested
     description: "Mi Smart Antibacterial Humidifier",
     setter: {
         "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
+        "power": async function (obj, val) { await device[obj].setPower(val) },
         "humidifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
     },
     common:
         [{ name: "humidifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "humidifier.fan-level", type: "number", read: true, write: true, min: 0, max: 3, states: { 0: "auto", 1: "level1", 2: "level2", 3: "level3" } },
         { name: "humidifier.water-level", type: "number", read: true, write: false, min: 0, max: 127 },
         { name: "alarm.alarm", type: "boolean", read: true, write: true, min: false, max: true },
@@ -657,7 +660,7 @@ DefineDevice[12] = { // Tested and working
         { name: "other.actual-speed", type: "number", read: true, write: false, min: 0, max: 2000 },
         { name: "other.power-time", type: "number", read: true, write: false, min: 0, max: 4294967295, unit: "Seconds" }]
 };
-DefineDevice[25] = { // Untestet
+DefineDevice[25] = { // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/50
     info: {},
     model: "deerma.humidifier.jsq4",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:humidifier:0000A00E:deerma-jsq4:1
     description: "XIAOMI Mijia CJSJSQ01DY Pure Evaporation",
@@ -829,7 +832,7 @@ async function Init() { //Cloudlogin und auslesen der gesamten Clouddaten
     for (let x = 0; x < AllDevicesRaw.length; x++) { //Jetzt erneut alle beim User vorhandenen Xiaomi Devices durchgehen
         for (let y = 0; y < DefineDevice.length; y++) { //und abgleichen mit von Skript und node-mihome unterstützten Geräten
             if (AllDevicesRaw[x].model == DefineDevice[y].model) { //Bei match Devicespezifische DPs vorbereiten
-                log("Device " + AllDevicesRaw[x].name + " is supported, creating DataPoints");
+                log("Device " + AllDevicesRaw[x].name + " is supported, creating DataPoints if necessary");
                 await PrepareDeviceDps(AllDevicesRaw[x].did, AllDevicesRaw[x].model);
                 NoDeviceMatch = false;
             };
@@ -892,10 +895,11 @@ async function CreateDevices() {
         });
     };
 
-    GenericDpRefreshIntervalObj = setInterval(function () { //
-        RefreshGenericDpsTicker();
-    }, refresh); //
-
+    if (!SkipRssiRefresh) {
+        GenericDpRefreshIntervalObj = setInterval(function () { //
+            RefreshGenericDpsTicker();
+        }, refresh); //
+    };
 
     onStop(function () { //Bei Scriptende alle Devices löschen
         for (let x in device) {
@@ -908,6 +912,7 @@ async function CreateDevices() {
 
 async function RefreshGenericDpsTicker() {
     // log("Reaching RefreshGenericDpsTicker()" , "info");
+
     let dummy = await mihome.miCloudProtocol.getDevices(null, options); //Gibt  Devices zurück und weist die Werte einem lokalen Array zu
     if (typeof dummy != "object") return false;
     for (let DeviceIndex in device) {
