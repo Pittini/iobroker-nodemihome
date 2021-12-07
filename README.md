@@ -1,4 +1,4 @@
-# iobroker-nodemihome Skript (kein Adapter!) BETA
+# iobroker-nodemihome Skript (kein Adapter!) 
 Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker via node-mihome
 
 ## Features:
@@ -41,6 +41,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Yeelight LED Ceiling Light      - yeelink.light.ceiling3  - (ready to test)
 * Mi LED Desk Lamp 1S             - yeelink.light.lamp4     - (voll/voll)
 * Yeelight Meteorite Pendelleuchte- yeelink.light.ceiling10 - (voll/voll)
+* Yeelink Bedside Lamp            - yeelink.light.bslamp2   - (voll/voll)
 
 
 
@@ -78,9 +79,12 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 06.12.21 (0.2.29)
+* Add: Testintegration Yeelink Bedside Lamp > yeelink.light.bslamp2 https://github.com/Pittini/iobroker-nodemihome/issues/52
+* Change: Betastatus entfernt.
 #### 04.12.21 (0.2.28)
 * Del: Integration Mijia Laser TV > fengmi.projector.fm15 canceled/removed
-* Add: Testintegration XIAOMI Mijia CJSJSQ01DY Pure Evaporation > deerma.humidifier.jsq4 https://github.com/Pittini/iobroker-nodemihome/issues/50
+* Add: Integration XIAOMI Mijia CJSJSQ01DY Pure Evaporation > deerma.humidifier.jsq4 https://github.com/Pittini/iobroker-nodemihome/issues/50
 * Fix: zhimi.humidifier.ca4 ControlLock konnte gelesen aber nicht gesetzt werden. Typo in Def. Datei behoben.
 * Add: Neue Einstellungsvariable skipRssiRefresh integriert um Netzlast zu verringern wenn rssi und isOnline nicht benötigt wird. 
 #### 22.10.21 (0.2.27)
