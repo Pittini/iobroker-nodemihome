@@ -69,6 +69,10 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
    
 
 ## Known Issues
+### Script kann sich nicht anmelden: Error: Pls login before make any request
+- Vor der Einrichtung im ioBroker bitte erst in der Smartphoneapp abmelden. Nach erfolgreicher Einrichtung im ioBroker kann auch am Handy wieder angemeldet werden.
+- Siehe https://github.com/Pittini/iobroker-nodemihome/issues/48
+
 ### Alle Farblampen
 - Farbe kann nicht gesetzt werden
 - Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
