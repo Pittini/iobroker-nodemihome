@@ -12,28 +12,28 @@ module.exports = class extends Device {
 
     this._propertiesToMonitor = [
       'humidifier:on'
-  ];
-}
+    ];
+  }
 
-setPower(v) {
-  return this.miotSetProperty('humidifier:on', v);
-}
+  setPower(v) {
+    return this.miotSetProperty('humidifier:on', v);
+  }
 
-setFanLevel(v) {
-  return this.miotSetProperty('humidifier:fan-level', v);
-}
+  setFanLevel(v) {
+    return this.miotSetProperty('humidifier:fan-level', v);
+  }
 
-setTargetHumidity(v) {
-  return this.miotSetProperty('humidifier:target-humidity', v);
-}
+  setTargetHumidity(v) {
+    return this.miotSetProperty('humidifier:target-humidity', v);
+  }
 
-setBuzzer(v) {
-  return this.miotSetProperty('alarm:alarm', v);
-}
+  setBuzzer(v) {
+    return this.miotSetProperty('alarm:alarm', v);
+  }
 
-setBright(v) {
-  return this.miotSetProperty('indicator-light:on', v);
-}
+  setBright(v) {
+    return this.miotSetProperty('indicator-light:on', v);
+  }
 
 
 };
