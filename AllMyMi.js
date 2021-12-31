@@ -101,6 +101,33 @@ DefineDevice[20] = {  // Tested and working - https://github.com/Pittini/iobroke
         { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
+DefineDevice[26] = {  // Tested and working
+    info: {},
+    model: "zhimi.airpurifier.ma2",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-ma2:1
+    description: "Purifier 2S",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val) },
+        "mode": async function (obj, val) { await device[obj].setMode(val) },
+        "favorite_level": async function (obj, val) { await device[obj].setFavoriteLevel(val) },
+        "led": async function (obj, val) { await device[obj].setLed(val) },
+        "buzzer": async function (obj, val) { await device[obj].setBuzzer(val) },
+        "child_lock": async function (obj, val) { await device[obj].setChildLock(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "mode", type: "string", role: "state", read: true, write: true, states: { "auto": "auto", "silent": "silent", "favorite": "favorite" } },
+        { name: "favorite_level", type: "number", role: "state", read: true, write: true, min: 1, max: 10 },
+        { name: "temp_dec", type: "number", role: "value.temperature", read: true, write: false, min: -40.0, max: 525.0, unit: "°C" },
+        { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
+        { name: "led", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "buzzer", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "filter1_life", type: "number", role: "value", read: true, write: false, min: 0, max: 100, unit: "%" },
+        { name: "f1_hour", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "f1_hour_used", type: "number", role: "value", read: true, write: false, unit: "h" },
+        { name: "child_lock", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
+};
+
 DefineDevice[22] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/34
     info: {},
     model: "zhimi.airpurifier.m1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-m1:1
