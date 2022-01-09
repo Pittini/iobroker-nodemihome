@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.28"; //vom 4.12.2021 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.29"; //vom 9.1.2022 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -616,6 +616,24 @@ DefineDevice[16] = { // untested
         { name: "ct", type: "number", read: true, write: true, min: 1700, max: 6500 }]
 };
 
+DefineDevice[27] = { // Tested and ok -https://github.com/Pittini/iobroker-nodemihome/issues/52 
+    info: {},
+    model: "yeelink.light.bslamp2",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:yeelink-bslamp2:1
+    description: "Yeelink Bedside Lamp",
+    setter: {
+		"power": async function (obj, val) { await device[obj].setPower(val) },
+        "bright": async function (obj, val) { await device[obj].setBrightness(val) },
+        "rgb": async function (obj, val) { await device[obj].setColorRgb(val) },
+        "color_mode": async function (obj, val) { await device[obj].setColorMode(val) },
+        "ct": async function (obj, val) { await device[obj].setCt(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "bright", type: "number", read: true, write: true, min: 1, max: 100 },
+        { name: "rgb", type: "number", read: true, write: true, min: 1, max: 16777215 },
+        { name: "color_mode", type: "number", read: true, write: true, min: 1, max: 2 },
+        { name: "ct", type: "number", read: true, write: true, min: 1700, max: 6500 }]
+};
 // ***************************** Humidifier *********************************
 
 DefineDevice[3] = { // Tested and working
@@ -649,7 +667,6 @@ DefineDevice[4] = { // untested
     description: "Mi Smart Antibacterial Humidifier",
     setter: {
         "humidifier.on": async function (obj, val) { await device[obj].setPower(val) },
-        "power": async function (obj, val) { await device[obj].setPower(val) },
         "humidifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
