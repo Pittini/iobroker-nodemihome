@@ -32,6 +32,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Air Purifier                    - zhimi.airpurifier.ma4   - (ready to test)
 * Xiaomi Air Purifier 2S          - zhimi.airpurifier.mc1   - (voll/voll)
 * Xiaomi Air Purifier 2           - zhimi.airpurifier.m1    - (ready to test)
+* Xiaomi Air Purifier 2S (China)  - zhimi.airpurifier.ma2   - (voll/voll)
 
 ### Lights
 * YeeLight Strip Plus             - yeelink.light.strip2    - (voll/teilw.)
@@ -82,6 +83,8 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGF786JBJNYRN&source=url) 
 
 ## Changelog
+#### 09.01.22
+* Add: Integration Mi Air Purifier 2S https://github.com/Pittini/iobroker-nodemihome/pull/55
 #### 04.12.21 (0.2.28)
 * Del: Integration Mijia Laser TV > fengmi.projector.fm15 canceled/removed
 * Add: Testintegration XIAOMI Mijia CJSJSQ01DY Pure Evaporation > deerma.humidifier.jsq4 https://github.com/Pittini/iobroker-nodemihome/issues/50
