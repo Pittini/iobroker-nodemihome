@@ -116,7 +116,7 @@ DefineDevice[26] = {  // Tested and working
     common:
         [{ name: "power", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
         { name: "mode", type: "string", role: "state", read: true, write: true, states: { "auto": "auto", "silent": "silent", "favorite": "favorite" } },
-        { name: "favorite_level", type: "number", role: "state", read: true, write: true, min: 1, max: 10 },
+        { name: "favorite_level", type: "number", role: "state", read: true, write: true, min: 0, max: 14 },
         { name: "temp_dec", type: "number", role: "value.temperature", read: true, write: false, min: -40.0, max: 525.0, unit: "°C" },
         { name: "humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "aqi", type: "number", role: "value", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
