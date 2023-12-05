@@ -134,7 +134,7 @@ module.exports = class extends Device {
     return this.miotSetProperty('physical-controls-locked:physical-controls-locked', v);
   }
 
-  setAqiUpateInterval() {
+  setAqiUpateInterval(v) {
     return this.miotSetProperty('aqi:aqi-updata-heartbeat', v);
   }
 
