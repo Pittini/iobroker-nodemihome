@@ -134,7 +134,8 @@ module.exports = class extends Device {
     return this.miotSetProperty('physical-controls-locked:physical-controls-locked', v);
   }
 
-  setAqiUpateInterval(v) {
+  // Sets duration for which the PM2.5-sensor provides real-time data. Duration is automatically decreased until "0" is reached
+  setAqiRealtimeUpdateDuration(v) {
     return this.miotSetProperty('aqi:aqi-updata-heartbeat', v);
   }
 
