@@ -93,7 +93,7 @@ module.exports = class extends Device {
     return this.properties['screen:brightness'];
   }
 
-  getAqiUpateInterval() {
+  getAqiRealtimeUpdateDuration() {
     return this.properties['aqi:aqi-updata-heartbeat'];
   }
 
