@@ -24,7 +24,7 @@ module.exports = class extends Device {
       'filter:filter-left-time',
       'alarm:alarm',
       'custom-service:favorite-level',
-      'physical-controls-locked:brightness',
+      'screen:brightness',
       'physical-controls-locked:physical-controls-locked',
       'aqi:aqi-updata-heartbeat'];
   }
@@ -90,7 +90,7 @@ module.exports = class extends Device {
   }
 
   getLcdBrightness() {
-    return this.properties['physical-controls-locked:brightness'];
+    return this.properties['screen:brightness'];
   }
 
   getAqiUpateInterval() {
@@ -133,7 +133,7 @@ module.exports = class extends Device {
   }
 
   setLcdBrightness(v) { // 0-Close, 1-Bright, 2-Brightest
-    return this.miotSetProperty('physical-controls-locked:brightness', v);
+    return this.miotSetProperty('screen:brightness', v);
   }
 
   setChildLock(v) {
