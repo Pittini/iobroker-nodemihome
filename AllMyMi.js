@@ -1,4 +1,4 @@
-const SkriptVersion = "0.2.29"; //vom 9.1.2022 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
+const SkriptVersion = "0.2.30"; //vom 06.12.2023 / Link zu Git: https://github.com/Pittini/iobroker-nodemihome / Forum: https://forum.iobroker.net/topic/39388/vorlage-xiaomi-airpurifier-3h-u-a-inkl-token-auslesen
 
 const mihome = require('node-mihome');
 
@@ -52,7 +52,8 @@ DefineDevice[0] = { // Tested and working
         "air-purifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val) },
         "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
-        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) }
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
+        "aqi.aqi-updata-heartbeat": async function (obj, val) { await device[obj].setAqiRealtimeUpdateDuration(val).catch(err => log(err.message, "error")) }
     },
     common:
         [{ name: "air-purifier.on", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
@@ -71,7 +72,8 @@ DefineDevice[0] = { // Tested and working
         { name: "environment.pm2_5-density", type: "number", read: true, write: false, min: 0, max: 600, unit: "μg/m³" },
         { name: "filter.filter-life-level", type: "number", read: true, write: false, min: 0, max: 100, unit: "%" },
         { name: "filter.filter-used-time", type: "number", read: true, write: false, unit: "h" },
-        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true },
+        { name: "aqi.aqi-updata-heartbeat", type: "number", read: true, write: true, min: 0, max: 65534, unit: "s", step: 1 }]
 };
 
 DefineDevice[20] = {  // Tested and working - https://github.com/Pittini/iobroker-nodemihome/issues/28
@@ -302,6 +304,42 @@ DefineDevice[18] = { // Untested
         { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true, min: false, max: true }]
 };
 
+DefineDevice[28] = { // Tested and working
+    info: {},
+    model: "zhimi.airpurifier.mb5",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:air-purifier:0000A007:zhimi-mb5:1
+    description: "Purifier 4",
+    setter: {
+        "air-purifier.on": async function (obj, val) { await device[obj].setPower(val).catch(err => log(err.message, "error")) },
+        "air-purifier.mode": async function (obj, val) { await device[obj].setMode(val).catch(err => log(err.message, "error")) },
+        "air-purifier.fan-level": async function (obj, val) { await device[obj].setFanLevel(val).catch(err => log(err.message, "error")) },
+        "air-purifier.anion": async function (obj, val) { await device[obj].setAnion(val).catch(err => log(err.message, "error")) },
+        "custom-service.favorite-level": async function (obj, val) { await device[obj].setFavLevel(val).catch(err => log(err.message, "error")) },
+        "alarm.alarm": async function (obj, val) { await device[obj].setBuzzer(val).catch(err => log(err.message, "error")) },
+        "screen.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val).catch(err => log(err.message, "error")) },
+        "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val).catch(err => log(err.message, "error")) },
+        "aqi.aqi-updata-heartbeat": async function (obj, val) { await device[obj].setAqiRealtimeUpdateDuration(val).catch(err => log(err.message, "error")) }
+    },
+    common:
+        [
+            { name: "air-purifier.on", type: "boolean", role: "switch", read: true, write: true },
+            { name: "air-purifier.anion", type: "boolean", role: "switch", read: true, write: true },
+            { name: "air-purifier.fault", type: "number", read: true, write: false, min: 0, max: 4, states: { 0: "No faults", 1: "Sensor PM Error", 2: "Temp Error", 3: "Hum Error", 4: "No Filter" } },
+            { name: "air-purifier.mode", type: "number", read: true, write: true, min: 0, max: 3, states: { 0: "Auto", 1: "Sleep", 2: "Favorite", 3: "Manual" } },
+            { name: "air-purifier.fan-level", type: "number", read: true, write: true, min: 1, max: 3, states: { 1: "Level1", 2: "Level2", 3: "Level3" } },
+            { name: "alarm.alarm", type: "boolean", read: true, write: true },
+            { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -30, max: 100, unit: "°C", step: 0.1 },
+            { name: "custom-service.favorite-level", type: "number", read: true, write: true, min: 0, max: 11, step: 1 },
+            { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" },
+            { name: "environment.pm2_5-density", type: "number", read: true, write: false, min: 0, max: 1000, unit: "μg/m³", step: 1 },
+            { name: "filter.filter-life-level", type: "number", read: true, write: false, min: 0, max: 100, unit: "%", step: 1 },
+            { name: "filter.filter-used-time", type: "number", read: true, write: false, min: 0, max: 65000, unit: "h", step: 1 },
+            { name: "filter.filter-left-time", type: "number", read: true, write: false, min: 0, max: 1000, unit: "days", step: 1 },
+            { name: "screen.brightness", type: "number", read: true, write: true, min: 0, max: 2, states: { 0: "Close", 1: "Bright", 2: "Brightest" } },
+            { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true },
+            { name: "aqi.aqi-updata-heartbeat", type: "number", read: true, write: true, min: 0, max: 65535, unit: "s", step: 1 }
+        ]
+};
+
 // ***************************** Fans *********************************
 //  TODO https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:zhimi-sa1:1
 
@@ -367,30 +405,32 @@ DefineDevice[24] = { // Tested and working
         "custom-service.speed-level": async function (obj, val) { await device[obj].setSpeedLevel(val) },
         "indicator-light.brightness": async function (obj, val) { await device[obj].setLcdBrightness(val) },
         "alarm.alarm": async function (obj, val) { await device[obj].setAlarm(val) },
-        "custom-service.swing-step-move": async function (obj, val) { if(val != "") await device[obj].setSwingStepMove(val)},
+        "custom-service.swing-step-move": async function (obj, val) { if (val != "") await device[obj].setSwingStepMove(val) },
         "physical-controls-locked.physical-controls-locked": async function (obj, val) { await device[obj].setChildLock(val) },
         "fan.off-delay": async function (obj, val) { await device[obj].setOffDelayTime(val) }
     },
     common:
         [{ name: "fan.on", type: "boolean", role: "switch", read: true, write: true },
-        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Natural Wind" , 1: "Straight Wind" } },
-        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "1", 2: "2", 3: "3", 4: "4"} },
+        { name: "fan.mode", type: "number", role: "switch", read: true, write: true, min: 0, max: 1, states: { 0: "Natural Wind", 1: "Straight Wind" } },
+        { name: "fan.fan-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 4, states: { 1: "1", 2: "2", 3: "3", 4: "4" } },
         { name: "fan.horizontal-swing", type: "boolean", role: "switch", read: true, write: true },
         { name: "fan.horizontal-angle", type: "number", role: "switch", read: true, write: true, min: 30, max: 120, unit: "°", states: { 30: "30", 60: "60", 90: "90", 120: "120" } },
         { name: "fan.anion", type: "boolean", role: "switch", read: true, write: true },
-        { name: "custom-service.speed-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 100},
-        { name: "custom-service.battery-state",  type: "boolean", role: "switch", read: true, write: false, states: { true: "used", false: "unused" } },
-        { name: "custom-service.speed-now",  type: "number", role: "switch", read: true, write: false, min: 0, max: 3000, unit: "RPM" },
-        { name: "custom-service.ac-state",  type: "boolean", role: "switch", read: true, write: false, states: { true: "plugged", false: "unplugged" } },
-        { name: "indicator-light.brightness", type: "number", read: true, write: true, min: 0, max: 100, unit:"%"},
+        { name: "custom-service.speed-level", type: "number", role: "switch", read: true, write: true, min: 1, max: 100 },
+        { name: "custom-service.battery-state", type: "boolean", role: "switch", read: true, write: false, states: { true: "used", false: "unused" } },
+        { name: "custom-service.speed-now", type: "number", role: "switch", read: true, write: false, min: 0, max: 3000, unit: "RPM" },
+        { name: "custom-service.ac-state", type: "boolean", role: "switch", read: true, write: false, states: { true: "plugged", false: "unplugged" } },
+        { name: "indicator-light.brightness", type: "number", read: true, write: true, min: 0, max: 100, unit: "%" },
         { name: "alarm.alarm", type: "boolean", role: "switch", read: true, write: true },
-        { name: "custom-service.swing-step-move", type: "string", role: "switch", read: false, write: true, states: {"": "None", "left": "Left", "right": "Right" }},
-        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true},
+        { name: "custom-service.swing-step-move", type: "string", role: "switch", read: false, write: true, states: { "": "None", "left": "Left", "right": "Right" } },
+        { name: "physical-controls-locked.physical-controls-locked", type: "boolean", role: "switch", read: true, write: true },
         { name: "fan.off-delay", type: "number", role: "switch", read: true, write: true, min: 0, max: 36000, unit: "s" },
         { name: "environment.temperature", type: "number", role: "value.temperature", read: true, write: false, min: -30.0, max: 100.0, unit: "°C" },
-        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" }        
+        { name: "environment.relative-humidity", type: "number", role: "value.humidity", read: true, write: false, min: 0, max: 100, unit: "%" }
         ]
-};DefineDevice[17] = { // Tested and working
+};
+
+DefineDevice[17] = { // Tested and working
     info: {},
     model: "dmaker.fan.p15",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:fan:0000A005:dmaker-p15:1  
     description: "Mi Smart Standing Fan Pro",
@@ -621,7 +661,7 @@ DefineDevice[27] = { // Tested and ok -https://github.com/Pittini/iobroker-nodem
     model: "yeelink.light.bslamp2",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:yeelink-bslamp2:1
     description: "Yeelink Bedside Lamp",
     setter: {
-		"power": async function (obj, val) { await device[obj].setPower(val) },
+        "power": async function (obj, val) { await device[obj].setPower(val) },
         "bright": async function (obj, val) { await device[obj].setBrightness(val) },
         "rgb": async function (obj, val) { await device[obj].setColorRgb(val) },
         "color_mode": async function (obj, val) { await device[obj].setColorMode(val) },

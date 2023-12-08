@@ -28,6 +28,7 @@ Skript zur Steuerung von bisher nicht unterstützten Xiaomi Geräten in Iobroker
 * Xiaomi Air Purifier 2H          - zhimi.airpurifier.mc2   - (voll/voll)
 * Mi Air Purifier Pro H           - zhimi.airpurifier.vb2   - (voll/voll)
 * Mi Air Purifier 3C              - zhimi.airpurifier.mb4   - (voll/voll)
+* Mi Air Purifier 4               - zhimi.airpurifier.mb5   - (voll/voll)
 * Mi Air Purifier Pro             - zhimi.airpurifier.v7    - (voll/voll)
 * Air Purifier                    - zhimi.airpurifier.ma4   - (ready to test)
 * Xiaomi Air Purifier 2S          - zhimi.airpurifier.mc1   - (voll/voll)
