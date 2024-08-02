@@ -77,7 +77,7 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 
 ### Alle Farblampen
 - Farbe kann nicht gesetzt werden
-- Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
+- Definitionsdateien welche manuell ins Verzeichnis /DockerData/iobroker/node_modules/@iobroker-javascript.0/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
 
 **If you like it, please consider a donation:**
                                                                           
