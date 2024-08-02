@@ -65,7 +65,7 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
   
 
 ## Anleitung für Integration nicht in der originalen node-mihome vorhandener Geräte (inzwischen fast alle, bitte nach dieser Anleitung vorgehen)!
-1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
+1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren (ab JavaScript Adapter V8.7.0 lautet der Pfad /opt/iobroker/node_modules/@iobroker-javascript.0/node-mihome/lib/devices/).
 2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
 3. Die aktuellste Skriptversion installieren und starten.
    
@@ -77,7 +77,7 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 
 ### Alle Farblampen
 - Farbe kann nicht gesetzt werden
-- Definitionsdateien welche manuell ins Verzeichnis /DockerData/iobroker/node_modules/@iobroker-javascript.0/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
+- Definitionsdateien welche manuell ins Verzeichnis /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopiert wurden, gehen nach update des JS Adapters bzw. der node-mihome verloren und müssen erneut einkopiert werden. Dieses Verhalten bleibt solange bestehen bis der node-mihome Entwickler die entsprechenden PullRequests merged und liegt nicht in meiner Kontrolle. 
 
 **If you like it, please consider a donation:**
                                                                           
