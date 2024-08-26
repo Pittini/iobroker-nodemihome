@@ -66,6 +66,7 @@ In einem dieser Channels findest Du nun auch die Daten des gesuchten Gerätes mi
 
 ## Anleitung für Integration nicht in der originalen node-mihome vorhandener Geräte (inzwischen fast alle, bitte nach dieser Anleitung vorgehen)!
 1. Die Device Definitionsdatei/en welche zu Deinem Gerät/en gehört, von hier: https://github.com/Pittini/iobroker-nodemihome/tree/main/DefinitionfilesForNode-Mihome nach: /opt/iobroker/node_modules/iobroker.javascript/node_modules/node-mihome/lib/devices/ kopieren.
+* Anmerkung: Ab javascript-Adapter 8.7.6 liegen die Files unter /opt/iobroker/node_modules/@iobroker-javascript.0/node-mihome/lib/devices
 2. Mindestens den Javaskript Adapter neustarten, idealerweise das gesamte System. 
 3. Die aktuellste Skriptversion installieren und starten.
    
