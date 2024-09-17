@@ -674,6 +674,34 @@ DefineDevice[27] = { // Tested and ok -https://github.com/Pittini/iobroker-nodem
         { name: "color_mode", type: "number", read: true, write: true, min: 1, max: 2 },
         { name: "ct", type: "number", read: true, write: true, min: 1700, max: 6500 }]
 };
+
+DefineDevice[28] = { // Tested and working
+    info: {},
+    model: "philips.light.sread1",// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:light:0000A001:philips-sread2:1                                 
+    description: "Xiaomi Philips Eyecare Smart Lamp 2",
+    setter: {
+        "power": async function (obj, val) { await device[obj].setPower(val ? 'on' : 'off') },
+        "bright": async function (obj, val) { await device[obj].setBrightness(val) },
+        "ambstatus": async function (obj, val) { await device[obj].setAmbientStatus(val ? 'on' : 'off') },
+        "ambvalue": async function (obj, val) { await device[obj].setAmbientBrightness(val) },
+        "eyecare": async function (obj, val) { await device[obj].setEyecareStatus(val ? 'on' : 'off') },
+        "scene_num": async function (obj, val) { await device[obj].setEyecareScene(val) },
+        "notifystatus": async function (obj, val) { await device[obj].setFatigueReminder(val ? 'on' : 'off') },
+        "bls": async function (obj, val) { await device[obj].setNightLight(val ? 'on' : 'off') },
+        "dvalue": async function (obj, val) { await device[obj].setDelayOff(val) }
+    },
+    common:
+        [{ name: "power", type: "boolean", role: "switch", read: true, write: true },
+        { name: "bright", type: "number", read: true, write: true, min: 1, max: 100 },
+        { name: "ambstatus", type: "boolean", role: "switch", read: true, write: true },
+        { name: "ambvalue", type: "number", read: true, write: true, min: 1, max: 100 },
+        { name: "eyecare", type: "boolean", role: "switch", read: true, write: true },
+        { name: "scene_num", type: "number", read: true, write: true, min: 1, max: 3 },
+        { name: "notifystatus", type: "boolean", role: "switch", read: true, write: true },
+        { name: "bls", type: "boolean", role: "switch", read: true, write: true },
+        { name: "dvalue", type: "number", read: true, write: true, min: 1, max: 60 }]
+};
+
 // ***************************** Humidifier *********************************
 
 DefineDevice[3] = { // Tested and working
